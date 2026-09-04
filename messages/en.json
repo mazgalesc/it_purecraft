@@ -154,19 +154,24 @@
     "footer": {
       "footer": "© 2025 MadPDF. All rights reserved.",
       "copyright": "© {year} MadPDF. All rights reserved.",
-      "privacyBadge": "Local processing · nothing is uploaded while you use a tool",
+      "privacyBadge": "In-browser processing · files reach the cloud only when you save them",
       "madeWith": "Made with <Heart /> and <Nextjs />",
       "security": {
         "local": {
-          "title": "Local processing",
-          "description": "Tools run in your browser — your documents are never uploaded while you work."
+          "title": "In-browser processing",
+          "description": "Tools run in your browser — nothing is uploaded while you work."
         },
         "cloud": {
           "title": "Optional cloud space",
-          "description": "Save results to your free 100 MB madweb.it space and reopen them anytime."
-        }
+          "description": "Save results to your private 100 MB space, reserved for your madweb.it account."
+        },
+        "title": "Security & privacy"
       },
-      "source": "Open source (AGPL-3.0)"
+      "source": "Open source (AGPL-3.0)",
+      "madeBy": "A madweb.it service",
+      "resources": "Resources",
+      "compliance": "Compliance",
+      "gdpr": "Your data stays yours"
     },
     "recentFiles": {
       "title": "Recent Files",
@@ -1254,15 +1259,15 @@
   },
   "home": {
     "hero": {
-      "title": "Professional PDF Tools",
-      "highlight": "Professional Tools",
-      "subtitle": "Powerful, local PDF processing — your files never leave your device while you work, and results can be saved to your free madweb.it cloud space.",
-      "cta": "Get Started"
+      "title": "Your PDFs, under control",
+      "highlight": "right in your browser",
+      "subtitle": "130+ free tools to merge, split, convert and protect documents. Work in your browser and save results to your 100 MB madweb.it cloud space.",
+      "cta": "Get started"
     },
     "features": {
       "privacy": {
-        "title": "Local processing",
-        "description": "Tools run in your browser — no uploads while you use them. Files reach our servers only when you save to your cloud space."
+        "title": "In-browser processing",
+        "description": "Tools run right in your browser: files leave your device only when you choose to save them to your cloud space."
       },
       "free": {
         "title": "Completely Free",
@@ -1295,7 +1300,8 @@
       "pdfTools": "PDF Tools",
       "freeToUse": "Free to Use",
       "languages": "Languages",
-      "filesUploaded": "Files processed"
+      "filesUploaded": "Files processed",
+      "cloudSpace": "Free cloud space"
     },
     "categories": {
       "popular": "Popular Tools",

@@ -160,8 +160,6 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
     { href: localePath(locale, '/'), label: t('navigation.home') },
     { href: localePath(locale, '/tools'), label: t('navigation.tools') },
     { href: localePath(locale, '/workflow'), label: t('navigation.workflow') || 'Workflow' },
-    { href: localePath(locale, '/about'), label: t('navigation.about') },
-    { href: localePath(locale, '/faq'), label: t('navigation.faq') },
   ];
 
   return (

@@ -55,8 +55,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, locale 
   const mainNavItems = [
     { href: localePath(locale, '/'), label: tCommon('navigation.home') },
     { href: localePath(locale, '/tools'), label: tCommon('navigation.tools'), hasSubmenu: true },
-    { href: localePath(locale, '/about'), label: tCommon('navigation.about') },
-    { href: localePath(locale, '/faq'), label: tCommon('navigation.faq') },
     { href: localePath(locale, '/privacy'), label: tCommon('navigation.privacy') },
     { href: localePath(locale, '/contact'), label: tCommon('navigation.contact') },
   ];

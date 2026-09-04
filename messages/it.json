@@ -154,19 +154,24 @@
     "footer": {
       "footer": "© 2025 MadPDF. Tutti i diritti riservati.",
       "copyright": "© {year} MadPDF. Tutti i diritti riservati.",
-      "privacyBadge": "Elaborazione locale · nessun upload mentre usi uno strumento",
+      "privacyBadge": "Elaborazione nel browser · i file arrivano in cloud solo se li salvi tu",
       "madeWith": "Fatto con <Heart /> e <Nextjs />",
       "security": {
         "local": {
-          "title": "Elaborazione locale",
-          "description": "Gli strumenti girano nel tuo browser: i documenti non vengono mai caricati mentre lavori."
+          "title": "Elaborazione nel browser",
+          "description": "Gli strumenti girano nel browser: nessun caricamento mentre usi uno strumento."
         },
         "cloud": {
           "title": "Spazio cloud opzionale",
-          "description": "Salva i risultati nel tuo spazio gratuito da 100 MB e riaprili quando vuoi."
-        }
+          "description": "Salva i risultati nel tuo spazio privato da 100 MB, riservato al tuo account madweb.it."
+        },
+        "title": "Sicurezza e privacy"
       },
-      "source": "Open source (AGPL-3.0)"
+      "source": "Open source (AGPL-3.0)",
+      "madeBy": "Un servizio madweb.it",
+      "resources": "Risorse",
+      "compliance": "Conformità",
+      "gdpr": "I tuoi dati restano tuoi"
     },
     "recentFiles": {
       "title": "File recenti",
@@ -1254,15 +1259,15 @@
   },
   "home": {
     "hero": {
-      "title": "Strumenti PDF Professionali",
-      "highlight": "Strumenti Professionali",
-      "subtitle": "Elaborazione PDF potente e locale — i file non lasciano il tuo dispositivo mentre lavori e i risultati possono essere salvati nel tuo spazio cloud madweb.it gratuito.",
-      "cta": "Inizia"
+      "title": "I tuoi PDF, sotto controllo",
+      "highlight": "direttamente nel browser",
+      "subtitle": "Oltre 130 strumenti gratuiti per unire, dividere, convertire e proteggere i documenti. Lavori nel browser e salvi i risultati nel tuo spazio cloud madweb.it da 100 MB.",
+      "cta": "Inizia ora"
     },
     "features": {
       "privacy": {
-        "title": "Elaborazione locale",
-        "description": "Gli strumenti girano nel tuo browser: nessun upload mentre li usi. I file arrivano sui nostri server solo quando li salvi nello spazio cloud."
+        "title": "Elaborazione nel browser",
+        "description": "Gli strumenti lavorano direttamente nel browser: i file lasciano il dispositivo solo se scegli di salvarli nel tuo spazio cloud."
       },
       "free": {
         "title": "Completamente gratuito",
@@ -1295,7 +1300,8 @@
       "pdfTools": "Strumenti PDF",
       "freeToUse": "Gratis da usare",
       "languages": "Lingue",
-      "filesUploaded": "File elaborati"
+      "filesUploaded": "File elaborati",
+      "cloudSpace": "Spazio cloud gratuito"
     },
     "categories": {
       "popular": "Strumenti popolari",
