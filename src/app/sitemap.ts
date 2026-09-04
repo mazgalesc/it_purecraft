@@ -7,7 +7,7 @@
 
 import { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
-import { locales, type Locale } from '@/lib/i18n/config';
+import { locales, localePath, type Locale } from '@/lib/i18n/config';
 import { getAllTools } from '@/config/tools';
 
 // Required for static export
@@ -51,10 +51,10 @@ const STATIC_PAGES = [
 function generateLocaleEntries(locale: Locale, lastModified: Date): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
   
-  // Add static pages
+  // Add static pages (default locale is unprefixed at the domain root)
   for (const page of STATIC_PAGES) {
     entries.push({
-      url: `${siteConfig.url}/${locale}${page.path}`,
+      url: `${siteConfig.url}${localePath(locale, page.path || '/')}`,
       lastModified,
       changeFrequency: page.changeFrequency as 'daily' | 'weekly' | 'monthly',
       priority: page.priority,
@@ -65,7 +65,7 @@ function generateLocaleEntries(locale: Locale, lastModified: Date): MetadataRout
   const tools = getAllTools();
   for (const tool of tools) {
     entries.push({
-      url: `${siteConfig.url}/${locale}/tools/${tool.slug}`,
+      url: `${siteConfig.url}${localePath(locale, `/tools/${tool.slug}`)}`,
       lastModified,
       changeFrequency: CHANGE_FREQUENCY.toolPage,
       priority: PRIORITY.toolPage,

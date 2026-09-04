@@ -232,11 +232,18 @@ describe('i18n Property Tests', () => {
         (locale, path) => {
           const localizedPath = getLocalizedPath(path, locale);
 
-          // The localized path should start with the locale prefix
-          expect(localizedPath).toMatch(new RegExp(`^/${locale}(/|$)`));
+          // madweb fork: Italian (default) URLs are bare; English keeps its prefix.
+          const expectedPrefix = locale === 'it' ? '/' : `/${locale}`;
+          expect(localizedPath.startsWith(expectedPrefix)).toBe(true);
+          if (locale === 'it') {
+            // Italian must never leak a locale prefix
+            expect(localizedPath).not.toMatch(/^\/it(\/|$)/);
+          }
 
-          // The locale prefix should be a valid locale
-          const extractedLocale = localizedPath.split('/')[1];
+          // The locale must be recoverable from the URL
+          const extractedLocale = locale === 'it'
+            ? 'it'
+            : localizedPath.split('/')[1];
           expect(isValidLocale(extractedLocale)).toBe(true);
           expect(extractedLocale).toBe(locale);
 
@@ -267,14 +274,15 @@ describe('i18n Property Tests', () => {
           // Generate localized path with new locale
           const result = getLocalizedPath(pathWithLocale, newLocale);
 
-          // Result should have the new locale prefix
-          expect(result).toMatch(new RegExp(`^/${newLocale}(/|$)`));
-
-          // Result should not contain the original locale (unless it's the same)
-          if (originalLocale !== newLocale) {
-            // The path should not have double locale prefixes
-            const segments = result.split('/').filter(Boolean);
-            const localeSegments = segments.filter(s => isValidLocale(s));
+          // madweb fork: Italian (default) URLs are bare; English keeps its prefix.
+          const segments = result.split('/').filter(Boolean);
+          const localeSegments = segments.filter(s => isValidLocale(s));
+          if (newLocale === 'it') {
+            // Italian result must be bare — no locale prefix at all
+            expect(localeSegments.length).toBe(0);
+          } else {
+            // Result should have the new locale prefix
+            expect(result).toMatch(new RegExp(`^/${newLocale}(/|$)`));
             expect(localeSegments.length).toBe(1);
             expect(localeSegments[0]).toBe(newLocale);
           }
@@ -300,8 +308,12 @@ describe('i18n Property Tests', () => {
         (locale) => {
           const localizedPath = getLocalizedPath('/', locale);
 
-          // Should be exactly /{locale}/
-          expect(localizedPath).toBe(`/${locale}/`);
+          // madweb fork: Italian root is bare '/', English is '/en/'
+          if (locale === 'it') {
+            expect(localizedPath).toBe('/');
+          } else {
+            expect(localizedPath).toBe(`/${locale}/`);
+          }
 
           return true;
         }

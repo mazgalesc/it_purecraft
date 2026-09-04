@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { getToolById } from '@/config/tools';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { type Locale } from '@/lib/i18n/config';
+import {type Locale, localePath } from '@/lib/i18n/config';
 import { ToolProvider } from '@/lib/contexts/ToolContext';
 import { getToolIcon } from '@/config/icons';
 import Link from 'next/link';
@@ -65,7 +65,7 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
             {/* Breadcrumb Navigation */}
             <nav aria-label="Breadcrumb" className="mb-4 flex items-center text-sm text-[hsl(var(--color-muted-foreground))] animate-in fade-in slide-in-from-top-4 duration-500 delay-100">
               <Link
-                href={`/${locale}`}
+                href={localePath(locale, '/')}
                 className="flex items-center hover:text-[hsl(var(--color-primary))] transition-colors"
                 title={t('common.navigation.home')}
               >
@@ -73,14 +73,14 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
               </Link>
               <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
               <Link
-                href={`/${locale}/tools`}
+                href={localePath(locale, '/tools')}
                 className="hover:text-[hsl(var(--color-primary))] transition-colors"
               >
                 {t('common.navigation.tools')}
               </Link>
               <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
               <Link
-                href={`/${locale}/tools/category/${tool.category}`}
+                href={localePath(locale, `/tools/category/${tool.category}`)}
                 className="hover:text-[hsl(var(--color-primary))] transition-colors"
               >
                 {t(`home.categories.${categoryTranslationKeys[tool.category]}`)}
@@ -426,7 +426,7 @@ function RelatedToolsSection({ tools, locale, localizedRelatedTools }: RelatedTo
           return (
             <a
               key={tool.id}
-              href={`/${locale}/tools/${tool.slug}`}
+              href={localePath(locale, `/tools/${tool.slug}`)}
               className="block group"
             >
               <Card hover clickable className="h-full glass-card transition-all duration-300 group-hover:-translate-y-1">

@@ -27,6 +27,15 @@ vi.mock('next-intl', () => ({
   useLocale: () => 'en',
 }));
 
+// Mock the cloud session (P3): Header renders AccountChip, which calls useSession;
+// the tests here don't exercise session state, so a signed-out stub is enough.
+vi.mock('@/lib/contexts/SessionContext', () => ({
+  useSession: () => ({
+    session: { status: 'anon' } as const,
+    refresh: vi.fn(),
+  }),
+}));
+
 describe('Tool Component Property Tests', () => {
   /**
    * **Feature: nextjs-pdf-toolkit, Property 3: Tool Card Rendering**
@@ -102,7 +111,10 @@ describe('Tool Component Property Tests', () => {
             const { unmount } = render(<ToolCard tool={tool} locale={locale} />);
             
             const linkElement = screen.getByTestId('tool-card');
-            const expectedUrl = `/${locale}/tools/${tool.slug}`;
+            // madweb fork: Italian (default) URLs are bare; English keeps its prefix.
+            const expectedUrl = locale === 'it'
+              ? `/tools/${tool.slug}`
+              : `/${locale}/tools/${tool.slug}`;
             
             expect(linkElement).toHaveAttribute('href', expectedUrl);
             

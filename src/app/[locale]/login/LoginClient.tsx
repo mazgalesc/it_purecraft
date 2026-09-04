@@ -13,6 +13,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { localePath } from '@/lib/i18n/config';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
@@ -50,7 +51,7 @@ export default function LoginClient() {
   // Already authenticated (valid madweb.it session cookie) → skip the form.
   useEffect(() => {
     if (session.status === 'authed') {
-      router.replace(next ?? `/${locale}`);
+      router.replace(next ?? localePath(locale, '/'));
     }
   }, [session.status, next, locale, router]);
 
@@ -62,7 +63,7 @@ export default function LoginClient() {
     try {
       await api.login(email.trim(), password);
       await refresh();
-      router.replace(next ?? `/${locale}`);
+      router.replace(next ?? localePath(locale, '/'));
     } catch (err) {
       if (err instanceof ApiError) {
         if (err.code === 'too_many_attempts') {
@@ -157,7 +158,7 @@ export default function LoginClient() {
 
         <div className="mt-6 text-center">
           <Link
-            href={`/${locale}`}
+            href={localePath(locale, '/')}
             className="inline-flex items-center gap-1.5 text-sm text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]"
           >
             <ArrowLeft size={15} aria-hidden />

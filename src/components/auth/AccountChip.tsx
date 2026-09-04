@@ -9,6 +9,7 @@
 'use client';
 
 import React from 'react';
+import { localePath } from '@/lib/i18n/config';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -35,7 +36,7 @@ export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
 
   if (session.status === 'anon') {
     return (
-      <Link href={`/${locale}/login`}>
+      <Link href={localePath(locale, '/login')}>
         <Button size="sm" variant="primary">
           {t('signIn')}
         </Button>
@@ -51,7 +52,7 @@ export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
       await api.logout();
     } finally {
       await refresh();
-      router.push(`/${locale}/login`);
+      router.push(localePath(locale, '/login'));
     }
   }
 
@@ -64,7 +65,7 @@ export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
       })}
     >
       <Link
-        href={`/${locale}/my-files`}
+        href={localePath(locale, '/my-files')}
         title={t('myFiles')}
         aria-label={t('myFiles')}
         className="flex items-center gap-2 rounded-full text-[hsl(var(--color-muted-foreground))] transition-colors hover:text-[hsl(var(--color-foreground))]"

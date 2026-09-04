@@ -317,15 +317,17 @@ describe('SEO Property Tests', () => {
           (locale, tool) => {
             const content = createMockToolContent(tool);
             const schema = generateSoftwareApplicationSchema(tool, content, locale);
-            
-            // URL should contain the locale
-            expect(schema.url).toContain(`/${locale}/`);
-            
-            // URL should contain the tool slug
-            expect(schema.url).toContain(`/tools/${tool.slug}`);
-            
+
             // URL should be a valid URL format
             expect(schema.url).toMatch(/^https?:\/\//);
+
+            // madweb fork: Italian (default) URLs are bare; English keeps its prefix.
+            if (locale === 'en') {
+              expect(schema.url).toContain(`/en/`);
+            }
+
+            // URL should contain the tool slug
+            expect(schema.url).toContain(`/tools/${tool.slug}`);
             
             return true;
           }
@@ -346,10 +348,14 @@ describe('SEO Property Tests', () => {
           fc.constantFrom('/tools/merge-pdf', '/about', '/faq', ''),
           (locale, path) => {
             const url = getCanonicalUrl(locale, path);
-            
-            expect(url).toContain(locale);
+
             expect(url).toMatch(/^https?:\/\//);
-            
+
+            // madweb fork: Italian (default) URLs are bare; English keeps its prefix.
+            if (locale === 'en') {
+              expect(url).toContain('/en');
+            }
+
             if (path) {
               expect(url).toContain(path);
             }
@@ -368,13 +374,12 @@ describe('SEO Property Tests', () => {
       // All locales should be present
       for (const locale of locales) {
         expect(alternates[locale]).toBeTruthy();
-        expect(alternates[locale]).toContain(locale);
         expect(alternates[locale]).toContain(path);
       }
       
-      // x-default should be present
+      // x-default should be present (madweb fork: points at the bare Italian URL)
       expect(alternates['x-default']).toBeTruthy();
-      expect(alternates['x-default']).toContain('en');
+      expect(alternates['x-default']).toContain(path);
     });
   });
 });

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Home, Wrench, HelpCircle, FileText, GitBranch } from 'lucide-react';
-import { type Locale } from '@/lib/i18n/config';
+import {type Locale, localePath } from '@/lib/i18n/config';
 
 // 动态导入 WorkflowEditor 以避免 SSR 问题（ReactFlow 需要 window 对象）
 const WorkflowEditor = dynamic(
@@ -37,7 +37,7 @@ export default function WorkflowPageClient({ locale }: WorkflowPageClientProps) 
                 {/* Left: Logo and Title */}
                 <div className="flex items-center gap-3">
                     <Link
-                        href={`/${locale}`}
+                        href={localePath(locale, '/')}
                         className="flex items-center gap-2 text-[hsl(var(--color-foreground))] hover:text-[hsl(var(--color-primary))] transition-colors"
                     >
                         <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] shadow-sm">
@@ -70,28 +70,28 @@ export default function WorkflowPageClient({ locale }: WorkflowPageClientProps) 
                 {/* Right: Navigation Links */}
                 <nav className="flex items-center gap-1">
                     <Link
-                        href={`/${locale}`}
+                        href={localePath(locale, '/')}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] hover:bg-[hsl(var(--color-muted))] rounded-md transition-colors"
                     >
                         <Home className="w-3.5 h-3.5" />
                         <span className="hidden md:inline">{t('navigation.home')}</span>
                     </Link>
                     <Link
-                        href={`/${locale}/tools`}
+                        href={localePath(locale, '/tools')}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] hover:bg-[hsl(var(--color-muted))] rounded-md transition-colors"
                     >
                         <Wrench className="w-3.5 h-3.5" />
                         <span className="hidden md:inline">{t('navigation.tools')}</span>
                     </Link>
                     <Link
-                        href={`/${locale}/about`}
+                        href={localePath(locale, '/about')}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] hover:bg-[hsl(var(--color-muted))] rounded-md transition-colors"
                     >
                         <FileText className="w-3.5 h-3.5" />
                         <span className="hidden md:inline">{t('navigation.about')}</span>
                     </Link>
                     <Link
-                        href={`/${locale}/faq`}
+                        href={localePath(locale, '/faq')}
                         className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] hover:bg-[hsl(var(--color-muted))] rounded-md transition-colors"
                     >
                         <HelpCircle className="w-3.5 h-3.5" />

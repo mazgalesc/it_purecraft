@@ -7,7 +7,7 @@
 
 import type { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
-import { type Locale, localeConfig, locales } from '@/lib/i18n/config';
+import { type Locale, localeConfig, locales, localePath, defaultLocale } from '@/lib/i18n/config';
 import type { Tool, ToolContent } from '@/types/tool';
 import { getBasePath } from '@/lib/utils/path';
 
@@ -39,12 +39,14 @@ export interface ToolMetadataOptions extends BaseMetadataOptions {
 }
 
 /**
- * Generate the canonical URL for a page
+ * Generate the canonical URL for a page.
+ * madweb fork: the default locale (it) is served unprefixed at the domain
+ * root; other locales keep their /<locale> prefix.
  */
 export function getCanonicalUrl(locale: Locale, path: string = ''): string {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   const basePath = getBasePath().replace(/\/$/, '');
-  return `${siteConfig.url}${basePath}/${locale}${cleanPath}`;
+  return `${siteConfig.url}${basePath}${localePath(locale, cleanPath)}`;
 }
 
 /**
@@ -56,11 +58,11 @@ export function getAlternateUrls(path: string = ''): Record<string, string> {
   const basePath = getBasePath().replace(/\/$/, '');
 
   for (const locale of locales) {
-    alternates[locale] = `${siteConfig.url}${basePath}/${locale}${cleanPath}`;
+    alternates[locale] = `${siteConfig.url}${basePath}${localePath(locale, cleanPath)}`;
   }
 
-  // Add x-default pointing to English
-  alternates['x-default'] = `${siteConfig.url}${basePath}/en${cleanPath}`;
+  // x-default points to the unprefixed (Italian) page.
+  alternates['x-default'] = `${siteConfig.url}${basePath}${localePath(defaultLocale, cleanPath)}`;
 
   return alternates;
 }

@@ -5,7 +5,7 @@ import { Shield, Lock, Server, Cloud, Eye } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Card } from '@/components/ui/Card';
-import { type Locale } from '@/lib/i18n/config';
+import {type Locale, localePath } from '@/lib/i18n/config';
 
 interface PrivacyPageClientProps {
   locale: Locale;
@@ -285,7 +285,7 @@ export default function PrivacyPageClient({ locale }: PrivacyPageClientProps) {
                         ) : (
                           <Link
                             key={i}
-                            href={`/${locale}${link.href}`}
+                            href={localePath(locale, `${link.href}`)}
                             className="text-sm font-medium text-[hsl(var(--color-primary))] hover:underline"
                           >
                             {link.label}

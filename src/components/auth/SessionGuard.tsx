@@ -14,6 +14,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { localePath } from '@/lib/i18n/config';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { useSession } from '@/lib/contexts/SessionContext';
@@ -24,12 +25,12 @@ export const SessionGuard: React.FC<{ children: React.ReactNode }> = ({ children
   const locale = useLocale();
   const router = useRouter();
 
-  const loginPath = `/${locale}/login`;
+  const loginPath = localePath(locale, '/login');
   const isLoginPage = pathname === loginPath || pathname === `${loginPath}/`;
 
   useEffect(() => {
     if (session.status === 'anon' && !isLoginPage) {
-      const home = `/${locale}`;
+      const home = localePath(locale, '/');
       const next =
         pathname && pathname !== home && pathname !== `${home}/`
           ? `?next=${encodeURIComponent(pathname)}`

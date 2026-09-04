@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Shield, Lock, Cloud, Globe } from 'lucide-react';
-import { type Locale, locales, localeConfig, getLocalizedPath } from '@/lib/i18n/config';
+import { type Locale, locales, localeConfig, getLocalizedPath, localePath } from '@/lib/i18n/config';
 import { saveLanguagePreference } from './LanguageSelector';
 
 export interface FooterProps {
@@ -19,12 +19,12 @@ export const Footer: React.FC<FooterProps> = ({ locale }) => {
   const pathname = usePathname();
 
   const footerLinks = [
-    { href: `/${locale}/about`, label: t('navigation.about') },
-    { href: `/${locale}/faq`, label: t('navigation.faq') },
-    { href: `/${locale}/privacy`, label: t('navigation.privacy') },
-    { href: `/${locale}/terms`, label: t('navigation.terms') },
-    { href: `/${locale}/cookies`, label: t('navigation.cookies') },
-    { href: `/${locale}/contact`, label: t('navigation.contact') },
+    { href: localePath(locale, '/about'), label: t('navigation.about') },
+    { href: localePath(locale, '/faq'), label: t('navigation.faq') },
+    { href: localePath(locale, '/privacy'), label: t('navigation.privacy') },
+    { href: localePath(locale, '/terms'), label: t('navigation.terms') },
+    { href: localePath(locale, '/cookies'), label: t('navigation.cookies') },
+    { href: localePath(locale, '/contact'), label: t('navigation.contact') },
   ];
 
   const handleLanguageChange = (newLocale: Locale) => {
@@ -43,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({ locale }) => {
           {/* Brand Column */}
           <div className="col-span-1 md:col-span-1 flex flex-col gap-6">
             <Link
-              href={`/${locale}`}
+              href={localePath(locale, '/')}
               className="group flex items-center gap-2.5 text-xl font-bold text-[hsl(var(--color-foreground))]"
               aria-label={`${t('brand')} - ${t('navigation.home')}`}
             >
@@ -199,13 +199,13 @@ export const Footer: React.FC<FooterProps> = ({ locale }) => {
               {t('footer.source')}
             </a>
             <div className="flex items-center gap-6">
-              <Link href={`/${locale}/terms`} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">
+              <Link href={localePath(locale, '/terms')} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">
                 {t('navigation.terms')}
               </Link>
-              <Link href={`/${locale}/privacy`} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">
+              <Link href={localePath(locale, '/privacy')} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">
                 {t('navigation.privacy')}
               </Link>
-              <Link href={`/${locale}/cookies`} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">
+              <Link href={localePath(locale, '/cookies')} className="text-xs text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))]">
                 {t('navigation.cookies')}
               </Link>
             </div>

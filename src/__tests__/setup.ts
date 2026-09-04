@@ -3,6 +3,42 @@ import '@testing-library/jest-dom/vitest';
 import { expect, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
+// localStorage shim — the test environment does not provide a usable storage
+// (Node's experimental global localStorage requires --localstorage-file), so
+// components using persistence (favorites, locale preference) need a stub.
+const hasWorkingStorage = (() => {
+  try {
+    return typeof globalThis.localStorage?.clear === 'function';
+  } catch {
+    return false;
+  }
+})();
+if (!hasWorkingStorage) {
+  const store = new Map<string, string>();
+  const storage: Storage = {
+    get length() {
+      return store.size;
+    },
+    clear: () => store.clear(),
+    getItem: (k: string) => (store.has(k) ? (store.get(k) as string) : null),
+    key: (i: number) => Array.from(store.keys())[i] ?? null,
+    removeItem: (k: string) => void store.delete(k),
+    setItem: (k: string, v: string) => void store.set(k, String(v)),
+  };
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, get: () => storage });
+}
+
+// Cloud session mock — components under test (Header/AccountChip via
+// DownloadButton/FileUploader) call useSession(); tests don't exercise session
+// state, so a signed-out stub keeps the cloud UI paths inert. No test file
+// exercises the real provider.
+vi.mock('@/lib/contexts/SessionContext', () => ({
+  useSession: () => ({
+    session: { status: 'anon' } as const,
+    refresh: vi.fn(),
+  }),
+}));
+
 // Cleanup after each test
 afterEach(() => {
   cleanup();

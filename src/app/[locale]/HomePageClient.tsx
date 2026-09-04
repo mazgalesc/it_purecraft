@@ -9,7 +9,7 @@ import { ToolGrid } from '@/components/tools/ToolGrid';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { getAllTools, getToolsByCategory, getPopularTools } from '@/config/tools';
-import { type Locale } from '@/lib/i18n/config';
+import {type Locale, localePath } from '@/lib/i18n/config';
 import { CATEGORY_INFO, type ToolCategory } from '@/types/tool';
 
 interface HomePageClientProps {
@@ -121,7 +121,7 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link href={`/${locale}/tools`}>
+                <Link href={localePath(locale, '/tools')}>
                   <Button variant="primary" size="lg" className="h-11 px-8 text-base shadow-lg hover:shadow-primary/25 transition-all hover:-translate-y-0.5">
                     {t('home.hero.cta')}
                     <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
@@ -196,7 +196,7 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
                   {t(`home.categoriesDescription.${categoryTranslationKeys['organize-manage']}`)}
                 </p>
               </div>
-              <Link href={`/${locale}/tools`}>
+              <Link href={localePath(locale, '/tools')}>
                 <Button variant="outline" size="sm" className="group">
                   {t('common.navigation.tools')}
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
@@ -233,7 +233,7 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
                 return (
                   <Link
                     key={category}
-                    href={`/${locale}/tools?category=${category}`}
+                    href={localePath(locale, `/tools?category=${category}`)}
                     className="group"
                   >
                     <Card className="p-5 h-full glass-card hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-[hsl(var(--color-border)/0.6)]">

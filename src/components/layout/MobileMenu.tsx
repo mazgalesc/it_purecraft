@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { X, ChevronRight, ChevronDown } from 'lucide-react';
-import { type Locale } from '@/lib/i18n/config';
+import {type Locale, localePath } from '@/lib/i18n/config';
 import { type ToolCategory } from '@/types/tool';
 import { Button } from '@/components/ui/Button';
 
@@ -44,21 +44,21 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, locale 
   const [touchStart, setTouchStart] = useState<number | null>(null);
 
   const categories: CategoryItem[] = [
-    { id: 'edit-annotate', labelKey: 'editAnnotate', href: `/${locale}/tools?category=edit-annotate` },
-    { id: 'convert-to-pdf', labelKey: 'convertToPdf', href: `/${locale}/tools?category=convert-to-pdf` },
-    { id: 'convert-from-pdf', labelKey: 'convertFromPdf', href: `/${locale}/tools?category=convert-from-pdf` },
-    { id: 'organize-manage', labelKey: 'organizeManage', href: `/${locale}/tools?category=organize-manage` },
-    { id: 'optimize-repair', labelKey: 'optimizeRepair', href: `/${locale}/tools?category=optimize-repair` },
-    { id: 'secure-pdf', labelKey: 'securePdf', href: `/${locale}/tools?category=secure-pdf` },
+    { id: 'edit-annotate', labelKey: 'editAnnotate', href: localePath(locale, '/tools?category=edit-annotate') },
+    { id: 'convert-to-pdf', labelKey: 'convertToPdf', href: localePath(locale, '/tools?category=convert-to-pdf') },
+    { id: 'convert-from-pdf', labelKey: 'convertFromPdf', href: localePath(locale, '/tools?category=convert-from-pdf') },
+    { id: 'organize-manage', labelKey: 'organizeManage', href: localePath(locale, '/tools?category=organize-manage') },
+    { id: 'optimize-repair', labelKey: 'optimizeRepair', href: localePath(locale, '/tools?category=optimize-repair') },
+    { id: 'secure-pdf', labelKey: 'securePdf', href: localePath(locale, '/tools?category=secure-pdf') },
   ];
 
   const mainNavItems = [
-    { href: `/${locale}`, label: tCommon('navigation.home') },
-    { href: `/${locale}/tools`, label: tCommon('navigation.tools'), hasSubmenu: true },
-    { href: `/${locale}/about`, label: tCommon('navigation.about') },
-    { href: `/${locale}/faq`, label: tCommon('navigation.faq') },
-    { href: `/${locale}/privacy`, label: tCommon('navigation.privacy') },
-    { href: `/${locale}/contact`, label: tCommon('navigation.contact') },
+    { href: localePath(locale, '/'), label: tCommon('navigation.home') },
+    { href: localePath(locale, '/tools'), label: tCommon('navigation.tools'), hasSubmenu: true },
+    { href: localePath(locale, '/about'), label: tCommon('navigation.about') },
+    { href: localePath(locale, '/faq'), label: tCommon('navigation.faq') },
+    { href: localePath(locale, '/privacy'), label: tCommon('navigation.privacy') },
+    { href: localePath(locale, '/contact'), label: tCommon('navigation.contact') },
   ];
 
   // Focus trap and escape key handling

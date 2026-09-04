@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ToolGrid } from '@/components/tools/ToolGrid';
 import { getToolsByCategory } from '@/config/tools';
-import { type Locale } from '@/lib/i18n/config';
+import {type Locale, localePath } from '@/lib/i18n/config';
 import { type ToolCategory } from '@/types/tool';
 import Link from 'next/link';
 import { Home, ChevronRight } from 'lucide-react';
@@ -41,7 +41,7 @@ export default function CategoryPageClient({ locale, category, localizedToolCont
                     {/* Breadcrumb Navigation */}
                     <nav aria-label="Breadcrumb" className="mb-4 flex items-center text-sm text-[hsl(var(--color-muted-foreground))] animate-in fade-in slide-in-from-top-4 duration-500 delay-100">
                         <Link
-                            href={`/${locale}`}
+                            href={localePath(locale, '/')}
                             className="flex items-center hover:text-[hsl(var(--color-primary))] transition-colors"
                             title={t('common.navigation.home')}
                         >
@@ -49,7 +49,7 @@ export default function CategoryPageClient({ locale, category, localizedToolCont
                         </Link>
                         <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
                         <Link
-                            href={`/${locale}/tools`}
+                            href={localePath(locale, '/tools')}
                             className="hover:text-[hsl(var(--color-primary))] transition-colors"
                         >
                             {t('common.navigation.tools')}
