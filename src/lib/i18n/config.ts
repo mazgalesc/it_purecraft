@@ -6,7 +6,9 @@
 export const locales = ['en', 'ja', 'ko', 'es', 'fr', 'de', 'zh', 'zh-TW', 'pt', 'ar', 'it', 'id', 'vi', 'ro'] as const;
 export type Locale = (typeof locales)[number];
 
-export const defaultLocale: Locale = 'en';
+// madweb fork: Italian-first product (madweb.it audience). UI stays switchable via the
+// language menu; /it is canonical and new visitors land there regardless of browser lang.
+export const defaultLocale: Locale = 'it';
 
 export const localeConfig: Record<Locale, {
   name: string;

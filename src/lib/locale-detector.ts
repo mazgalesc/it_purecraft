@@ -31,8 +31,9 @@ export function getClientLocale(): Locale {
     }
   }
 
-  const browserLocale = normalizeLocale(navigator.language);
-  return browserLocale ?? defaultLocale;
+  // madweb fork: Italian-first — ignore the browser language unless the user explicitly
+  // chose a locale (stored above). Keeps the product default stable across visitors.
+  return defaultLocale;
 }
 
 export function setClientLocale(locale: string): Locale {
