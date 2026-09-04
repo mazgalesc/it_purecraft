@@ -37,14 +37,15 @@ function pdfcraft_owned_file(PDO $pdo, int $owner, string $fileId): array
     return $row ?: [];
 }
 
-/** True if a sibling (same parent) already carries $name. */
-function pdfcraft_name_taken(PDO $pdo, int $owner, ?string $parentId, string $name, string $table, string $exceptId = ''): bool
+/** True if a sibling (same parent) already carries $name. Parent column differs
+ *  per table: files.folder_id vs folders.parent_id — passed in, never from input. */
+function pdfcraft_name_taken(PDO $pdo, int $owner, ?string $parentId, string $name, string $table, string $parentColumn, string $exceptId = ''): bool
 {
     if ($parentId === null || $parentId === '') {
-        $stmt = $pdo->prepare("SELECT 1 FROM {$table} WHERE owner = ? AND parent_id IS NULL AND name = ? AND id <> ?");
+        $stmt = $pdo->prepare("SELECT 1 FROM {$table} WHERE owner = ? AND {$parentColumn} IS NULL AND name = ? AND id <> ?");
         $stmt->execute([$owner, $name, $exceptId]);
     } else {
-        $stmt = $pdo->prepare("SELECT 1 FROM {$table} WHERE owner = ? AND parent_id = ? AND name = ? AND id <> ?");
+        $stmt = $pdo->prepare("SELECT 1 FROM {$table} WHERE owner = ? AND {$parentColumn} = ? AND name = ? AND id <> ?");
         $stmt->execute([$owner, $parentId, $name, $exceptId]);
     }
     return $stmt->fetch() !== false;
@@ -235,7 +236,7 @@ function pdfcraft_controller_update_file(): never
 
     if (array_key_exists('name', $body)) {
         $name = pdfcraft_sanitize_name((string) $body['name']);
-        if (pdfcraft_name_taken($pdo, $owner, $file['folder_id'], $name, 'files', $file['id'])) {
+        if (pdfcraft_name_taken($pdo, $owner, $file['folder_id'], $name, 'files', 'folder_id', $file['id'])) {
             pdfcraft_json_out(['error' => 'name_exists'], 409);
         }
         $up = $pdo->prepare('UPDATE files SET name = ? WHERE id = ? AND owner = ?');
@@ -249,7 +250,7 @@ function pdfcraft_controller_update_file(): never
         }
         $targetId = $target === '' ? null : $target;
         $newName = pdfcraft_sanitize_name((string) ($body['name'] ?? $file['name']));
-        if (pdfcraft_name_taken($pdo, $owner, $targetId, $newName, 'files', $file['id'])) {
+        if (pdfcraft_name_taken($pdo, $owner, $targetId, $newName, 'files', 'folder_id', $file['id'])) {
             pdfcraft_json_out(['error' => 'name_exists'], 409);
         }
         $up = $pdo->prepare('UPDATE files SET folder_id = ?, name = ? WHERE id = ? AND owner = ?');
@@ -296,7 +297,7 @@ function pdfcraft_controller_create_folder(): never
         pdfcraft_json_out(['error' => 'not_found'], 404);
     }
     $parentId = $parent === '' ? null : $parent;
-    if (pdfcraft_name_taken($pdo, $owner, $parentId, $name, 'folders')) {
+    if (pdfcraft_name_taken($pdo, $owner, $parentId, $name, 'folders', 'parent_id')) {
         pdfcraft_json_out(['error' => 'name_exists'], 409);
     }
     $id = bin2hex(random_bytes(8));
@@ -319,7 +320,7 @@ function pdfcraft_controller_update_folder(): never
 
     if (array_key_exists('name', $body)) {
         $name = pdfcraft_sanitize_name((string) $body['name']);
-        if (pdfcraft_name_taken($pdo, $owner, $folder['parent_id'], $name, 'folders', $id)) {
+        if (pdfcraft_name_taken($pdo, $owner, $folder['parent_id'], $name, 'folders', 'parent_id', $id)) {
             pdfcraft_json_out(['error' => 'name_exists'], 409);
         }
         $up = $pdo->prepare('UPDATE folders SET name = ? WHERE id = ? AND owner = ?');

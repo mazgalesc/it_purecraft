@@ -30,10 +30,10 @@ if (isset($seg[1])) {
 /* ---- GET -------------------------------------------------------------- */
 
 if ($method === 'GET') {
-    if ($seg[0] ?? '' === 'me' && count($seg) === 1) {
+    if (($seg[0] ?? '') === 'me' && count($seg) === 1) {
         pdfcraft_controller_me();
     }
-    if ($seg[0] ?? '' === 'files' && count($seg) === 1) {
+    if (($seg[0] ?? '') === 'files' && count($seg) === 1) {
         pdfcraft_controller_list();
     }
     if (($seg[0] ?? '') === 'files' && count($seg) === 3 && ($seg[2] ?? '') === 'download') {
