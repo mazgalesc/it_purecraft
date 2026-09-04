@@ -68,6 +68,25 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   return body as T;
 }
 
+export interface CloudItem {
+  type: 'folder' | 'file';
+  id: string;
+  name: string;
+  size?: number;
+  mime?: string;
+  tool?: string;
+  created: string;
+}
+
+export interface CloudListResponse {
+  items: CloudItem[];
+  folder: string;
+}
+
+function apiErrorFrom(res: Response): ApiError {
+  return new ApiError(`http_${res.status}`, res.status);
+}
+
 export const api = {
   me: () => request<MePayload>('/api/me'),
 
@@ -79,4 +98,35 @@ export const api = {
     }),
 
   logout: () => request<{ ok: boolean }>('/api/auth/logout', { method: 'POST' }),
+
+  /* ---- cloud files & folders ---- */
+
+  listCloud: (folderId: string | null) => {
+    const query = folderId ? `?folder=${encodeURIComponent(folderId)}` : '';
+    return request<CloudListResponse>(`/api/files${query}`);
+  },
+
+  downloadCloud: async (fileId: string): Promise<Blob> => {
+    let res: Response;
+    try {
+      res = await fetch(`/api/files/${fileId}/download`, {
+        credentials: 'same-origin',
+        cache: 'no-store',
+      });
+    } catch {
+      throw new ApiError('network_error', 0);
+    }
+    if (!res.ok) throw apiErrorFrom(res);
+    return res.blob();
+  },
+
+  uploadCloud: (blob: Blob | File, name: string, folderId: string | null, tool?: string) => {
+    const fd = new FormData();
+    fd.append('file', blob, name);
+    if (folderId) fd.append('folder', folderId);
+    if (tool) fd.append('tool', tool);
+    return request<{ item: CloudItem }>('/api/files', { method: 'POST', body: fd }).then(
+      (b) => b.item
+    );
+  },
 };

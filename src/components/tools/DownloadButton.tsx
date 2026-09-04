@@ -6,6 +6,9 @@ import { Button, type ButtonProps } from '../ui/Button';
 import { addRecentFile } from '@/lib/storage/recent-files';
 import { useToolContext } from '@/lib/contexts/ToolContext';
 import { sanitizeFilename } from '@/lib/utils/sanitize';
+import { CloudUpload, Check, Loader2, X } from 'lucide-react';
+import { api, ApiError } from '@/lib/api';
+import { useSession } from '@/lib/contexts/SessionContext';
 
 export interface DownloadButtonProps extends Omit<ButtonProps, 'onClick' | 'children'> {
   /** Blob data to download */
@@ -26,6 +29,8 @@ export interface DownloadButtonProps extends Omit<ButtonProps, 'onClick' | 'chil
   toolSlug?: string;
   /** Tool display name for recent files tracking (optional, uses context if not provided) */
   toolName?: string;
+  /** Show a companion "save to cloud space" button when a result exists (default: true) */
+  saveToCloud?: boolean;
 }
 
 /**
@@ -56,6 +61,7 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({
   onDownloadComplete,
   autoRevoke = true,
   showFileSize = true,
+  saveToCloud = true,
   disabled = false,
   variant = 'primary',
   size = 'md',
@@ -67,6 +73,10 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({
   const t = useTranslations('common');
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [cloudState, setCloudState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [cloudNote, setCloudNote] = useState<string | null>(null);
+  const tCloud = useTranslations('cloud');
+  const { session } = useSession();
   
   // Get tool info from context if not provided via props
   const toolContext = useToolContext();
@@ -144,7 +154,34 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({
   const buttonText = label || t('buttons.download');
   const fileSizeText = showFileSize && file ? ` (${formatFileSize(file.size)})` : '';
 
-  return (
+  /** Upload the result blob to the user's cloud space (root folder). */
+  const handleSaveToCloud = useCallback(async () => {
+    if (!file) return;
+    setCloudState('saving');
+    setCloudNote(null);
+    try {
+      await api.uploadCloud(file, sanitizeFilename(filename, 'download.pdf'), null, toolSlug);
+      setCloudState('saved');
+      setCloudNote(tCloud('saved'));
+      window.setTimeout(() => {
+        setCloudState('idle');
+        setCloudNote(null);
+      }, 3000);
+    } catch (err) {
+      setCloudState('error');
+      setCloudNote(
+        err instanceof ApiError && err.code === 'quota_exceeded'
+          ? tCloud('errors.quotaExceeded')
+          : tCloud('errors.saveFailed')
+      );
+      window.setTimeout(() => {
+        setCloudState('idle');
+        setCloudNote(null);
+      }, 6000);
+    }
+  }, [file, filename, toolSlug, tCloud]);
+
+  const downloadButton = (
     <Button
       variant={variant}
       size={size}
@@ -178,6 +215,63 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({
         {fileSizeText}
       </span>
     </Button>
+  );
+
+  const cloudEnabled = saveToCloud && !!file && session.status === 'authed';
+  if (!cloudEnabled) {
+    return downloadButton;
+  }
+
+  const cloudTone =
+    cloudState === 'saved'
+      ? 'text-green-500 border-green-500/40'
+      : cloudState === 'error'
+        ? 'text-[hsl(var(--color-destructive))] border-[hsl(var(--color-destructive)/0.4)]'
+        : '';
+
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-2">
+      {downloadButton}
+      <Button
+        type="button"
+        variant="outline"
+        size={size}
+        disabled={cloudState === 'saving'}
+        onClick={handleSaveToCloud}
+        className={cloudTone}
+        aria-label={tCloud('saveToCloud')}
+        title={cloudNote ?? tCloud('saveToCloud')}
+      >
+        {cloudState === 'saving' ? (
+          <Loader2 size={16} className="animate-spin" aria-hidden />
+        ) : cloudState === 'saved' ? (
+          <Check size={16} aria-hidden />
+        ) : cloudState === 'error' ? (
+          <X size={16} aria-hidden />
+        ) : (
+          <CloudUpload size={16} aria-hidden />
+        )}
+        {size !== 'icon' && (
+          <span>
+            {cloudState === 'saving'
+              ? tCloud('saving')
+              : cloudState === 'saved'
+                ? tCloud('saved')
+                : tCloud('saveToCloud')}
+          </span>
+        )}
+      </Button>
+      {cloudNote && (
+        <p
+          className={`w-full text-center text-xs font-medium ${
+            cloudState === 'error' ? 'text-[hsl(var(--color-destructive))]' : 'text-green-500'
+          }`}
+          aria-live="polite"
+        >
+          {cloudNote}
+        </p>
+      )}
+    </div>
   );
 };
 

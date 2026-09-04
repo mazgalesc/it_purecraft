@@ -22,6 +22,29 @@
     "logout": "Esci",
     "quota": "{used} di {total} utilizzati"
   },
+  "cloud": {
+    "title": "Il mio spazio",
+    "root": "I miei file",
+    "loading": "Caricamento…",
+    "empty": "Nessun file qui",
+    "emptyHint": "Carica un file o apri una cartella",
+    "uploadHere": "Carica qui",
+    "uploading": "Caricamento…",
+    "open": "Apri",
+    "openFromCloud": "Apri dal tuo spazio",
+    "saveToCloud": "Salva nello spazio",
+    "saving": "Salvataggio…",
+    "saved": "Salvato nel tuo spazio",
+    "close": "Chiudi",
+    "quotaLabel": "{used} di {total}",
+    "errors": {
+      "loadFailed": "Impossibile caricare lo spazio. Riprova.",
+      "downloadFailed": "Impossibile aprire il file. Riprova.",
+      "uploadFailed": "Caricamento non riuscito. Riprova.",
+      "quotaExceeded": "Spazio esaurito: libera spazio prima di salvare.",
+      "saveFailed": "Impossibile salvare nello spazio. Riprova."
+    }
+  },
   "metadata": {
     "home": {
       "title": "PDFCraft - Strumenti PDF Professionali",

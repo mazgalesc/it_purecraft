@@ -2,8 +2,10 @@
 
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { UploadCloud, File, Plus, X, Lock, Loader2 } from 'lucide-react';
+import { UploadCloud, CloudUpload, File, Plus, X, Lock, Loader2 } from 'lucide-react';
 import { isTauri } from '@/lib/tauri-bridge';
+import { useSession } from '@/lib/contexts/SessionContext';
+import { CloudPicker } from '@/components/cloud/CloudPicker';
 
 export interface FileUploaderProps {
   /** Accepted file types (MIME types or extensions) */
@@ -61,6 +63,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragCounter, setDragCounter] = useState(0);
+  const [cloudOpen, setCloudOpen] = useState(false);
+  const tCloud = useTranslations('cloud');
+  const { session } = useSession();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
@@ -565,6 +570,44 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
           </>
         )}
       </div>
+
+      {/* Open from the user's cloud space (madweb.it accounts only) */}
+      {session.status === 'authed' && !disabled && (
+        <div className="mt-4 flex items-center justify-center gap-3">
+          <span className="h-px w-10 bg-[hsl(var(--color-border))]" aria-hidden />
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setCloudOpen(true);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.stopPropagation();
+                setCloudOpen(true);
+              }
+            }}
+            className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(var(--color-border))] px-3.5 py-1.5 text-xs font-medium text-[hsl(var(--color-foreground))] hover:border-[hsl(var(--color-primary))] hover:text-[hsl(var(--color-primary))]"
+          >
+            <CloudUpload size={14} aria-hidden />
+            {tCloud('openFromCloud')}
+          </button>
+          <span className="h-px w-10 bg-[hsl(var(--color-border))]" aria-hidden />
+        </div>
+      )}
+
+      {/* Cloud space picker modal */}
+      {cloudOpen && (
+        <CloudPicker
+          onClose={() => setCloudOpen(false)}
+          onPickFile={(file) => {
+            setCloudOpen(false);
+            void handleFiles([file]);
+          }}
+        />
+      )}
 
       {/* File info hints - only show when multiple files allowed */}
       {multiple && (

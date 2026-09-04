@@ -30,7 +30,7 @@ export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
   const t = useTranslations('account');
 
   if (session.status === 'loading') {
-    return <div className="h-9 w-24 animate-pulse rounded-full bg-muted" aria-hidden />;
+    return <div className="h-9 w-24 animate-pulse rounded-full bg-[hsl(var(--color-muted))]" aria-hidden />;
   }
 
   if (session.status === 'anon') {
@@ -72,7 +72,7 @@ export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
         onClick={handleLogout}
         aria-label={t('logout')}
         title={t('logout')}
-        className="rounded-full p-2 text-[hsl(var(--color-muted-foreground))] transition-colors hover:bg-muted hover:text-[hsl(var(--color-foreground))]"
+        className="rounded-full p-2 text-[hsl(var(--color-muted-foreground))] transition-colors hover:bg-[hsl(var(--color-muted))] hover:text-[hsl(var(--color-foreground))]"
       >
         <LogOut size={15} aria-hidden />
       </button>

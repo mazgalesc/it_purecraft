@@ -22,6 +22,29 @@
     "logout": "Log out",
     "quota": "{used} of {total} used"
   },
+  "cloud": {
+    "title": "My space",
+    "root": "My files",
+    "loading": "Loading…",
+    "empty": "Nothing here yet",
+    "emptyHint": "Upload a file or open a folder",
+    "uploadHere": "Upload here",
+    "uploading": "Uploading…",
+    "open": "Open",
+    "openFromCloud": "Open from your space",
+    "saveToCloud": "Save to space",
+    "saving": "Saving…",
+    "saved": "Saved to your space",
+    "close": "Close",
+    "quotaLabel": "{used} of {total}",
+    "errors": {
+      "loadFailed": "Could not load your space. Please try again.",
+      "downloadFailed": "Could not open the file. Please try again.",
+      "uploadFailed": "Upload failed. Please try again.",
+      "quotaExceeded": "Space quota exceeded — free up space before saving.",
+      "saveFailed": "Could not save to your space. Please try again."
+    }
+  },
   "metadata": {
     "home": {
       "title": "PDFCraft - Professional PDF Tools",

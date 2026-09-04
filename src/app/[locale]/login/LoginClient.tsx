@@ -125,7 +125,7 @@ export default function LoginClient() {
           </FormField>
 
           {error ? (
-            <p role="alert" className="flex items-start gap-2 text-sm text-destructive">
+            <p role="alert" className="flex items-start gap-2 text-sm text-[hsl(var(--color-destructive))]">
               <Lock size={15} className="mt-0.5 shrink-0" aria-hidden />
               <span>{error}</span>
             </p>
