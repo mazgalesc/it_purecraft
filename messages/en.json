@@ -15,7 +15,9 @@
       "tooManyAttempts": "Too many attempts. Please try again in a few minutes.",
       "networkError": "Cannot reach the server. Check your connection and try again.",
       "unknown": "Something went wrong. Please try again."
-    }
+    },
+    "gateSubtitle": "Sign in with your madweb.it account to use the tools and your space.",
+    "gateBadge": "An account is required to continue"
   },
   "account": {
     "signIn": "Sign in",

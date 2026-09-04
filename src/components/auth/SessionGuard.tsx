@@ -1,12 +1,13 @@
 /**
- * Login wall (client-side). Wraps the app inside SessionProvider:
- *  - while the session loads, renders nothing (no flash of gated content),
- *  - anonymous visitors on any page except /login are redirected to
- *    /<locale>/login?next=<original path>,
- *  - authenticated visitors pass through untouched.
+ * Login wall (client-side). Wraps the app inside SessionProvider.
  *
- * The server-side nginx gate (deploy-time hardening) complements this; the
- * product rule is enforced here in the app itself.
+ * Product rule (madweb fork): marketing/info pages are PUBLIC — anonymous
+ * visitors can read the homepage, browse the tools catalog, and open about,
+ * FAQ, privacy, terms, cookies and contact. The wall only guards actually
+ * USING the product: opening a tool (/tools/<slug>), the workflow builder,
+ * the dashboard and the cloud file manager. There, anonymous visitors are
+ * redirected to /login?next=<original path> (the login page links to the
+ * madweb.it registration), so they land back where they intended.
  *
  * AGPL-3.0 — part of the it_purecraft fork.
  */
@@ -19,6 +20,30 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { useSession } from '@/lib/contexts/SessionContext';
 
+/** Route segments (locale prefix stripped) whose first segment gates the app. */
+const GATED_SEGMENTS = new Set(['workflow', 'dashboard', 'my-files']);
+
+/**
+ * True when the path requires an account. Public: '', about, faq, privacy,
+ * terms, cookies, contact, the /tools catalog and its /tools/category/...
+ * listings. Gated: /tools/<slug> (using a tool), workflow, dashboard,
+ * my-files.
+ */
+function isGatedPath(pathname: string | null): boolean {
+  if (!pathname) return false;
+  // Strip the locale prefix (English /en/...; legacy /it/... just in case).
+  const bare = pathname.replace(/^\/(?:en|it)(\/|$)/, '/');
+  const segments = bare.split('/').filter(Boolean);
+  if (segments.length === 0) return false; // homepage
+  const [first, second] = segments;
+  if (first === 'tools') {
+    // Catalog (/tools) and category listings (/tools/category/...) stay public;
+    // a concrete tool page (/tools/<slug>) requires login.
+    return Boolean(second) && second !== 'category';
+  }
+  return GATED_SEGMENTS.has(first);
+}
+
 export const SessionGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { session } = useSession();
   const pathname = usePathname();
@@ -27,19 +52,18 @@ export const SessionGuard: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginPath = localePath(locale, '/login');
   const isLoginPage = pathname === loginPath || pathname === `${loginPath}/`;
+  const gated = isGatedPath(pathname);
 
   useEffect(() => {
-    if (session.status === 'anon' && !isLoginPage) {
-      const home = localePath(locale, '/');
-      const next =
-        pathname && pathname !== home && pathname !== `${home}/`
-          ? `?next=${encodeURIComponent(pathname)}`
-          : '';
+    if (session.status === 'anon' && gated && !isLoginPage) {
+      const next = pathname ? `?next=${encodeURIComponent(pathname)}` : '';
       router.replace(`${loginPath}${next}`);
     }
-  }, [session.status, isLoginPage, loginPath, pathname, locale, router]);
+  }, [session.status, gated, isLoginPage, loginPath, pathname, router]);
 
-  if (session.status === 'loading' || (session.status === 'anon' && !isLoginPage)) {
+  // Hold rendering only where it matters: gated pages while the session
+  // loads (no flash of gated content) and while redirecting anon visitors.
+  if (gated && (session.status === 'loading' || (session.status === 'anon' && !isLoginPage))) {
     return null;
   }
 

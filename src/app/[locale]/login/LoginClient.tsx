@@ -87,9 +87,15 @@ export default function LoginClient() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[hsl(var(--color-primary))] text-[hsl(var(--color-primary-foreground))]">
             <FileText size={22} aria-hidden />
           </div>
+          {next ? (
+            <p className="mx-auto mb-3 inline-flex items-center gap-1.5 rounded-full border border-[hsl(var(--color-border))] bg-[hsl(var(--color-muted)/0.4)] px-3 py-1 text-xs font-medium text-[hsl(var(--color-foreground))]">
+              <Lock size={13} aria-hidden />
+              {t('gateBadge')}
+            </p>
+          ) : null}
           <h1 className="text-2xl font-semibold">{t('title')}</h1>
           <p className="mt-1 text-sm text-[hsl(var(--color-muted-foreground))]">
-            {t('subtitle')}
+            {next ? t('gateSubtitle') : t('subtitle')}
           </p>
         </div>
 

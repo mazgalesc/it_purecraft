@@ -15,7 +15,9 @@
       "tooManyAttempts": "Troppi tentativi. Riprova tra qualche minuto.",
       "networkError": "Impossibile contattare il server. Controlla la connessione e riprova.",
       "unknown": "Si è verificato un errore. Riprova."
-    }
+    },
+    "gateSubtitle": "Accedi con il tuo account madweb.it per usare gli strumenti e il tuo spazio.",
+    "gateBadge": "Serve un account per continuare"
   },
   "account": {
     "signIn": "Accedi",
