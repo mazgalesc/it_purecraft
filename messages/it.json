@@ -1415,7 +1415,8 @@
         "name": "Ritaglia e ridimensiona pagine",
         "description": "Ritaglia le pagine del PDF e regola le dimensioni della pagina"
       }
-    }
+    },
+    "addToWorkflowHint": "Trascina o fai doppio clic per aggiungere al flusso di lavoro"
   },
   "tools": {
     "search": {
@@ -1777,7 +1778,15 @@
         "fontSize": "Dimensione carattere",
         "inkColor": "Colore dell'inchiostro",
         "inkThickness": "Spessore dell'inchiostro"
-      }
+      },
+      "textHistory": "Cronologia delle modifiche al testo",
+      "textUndo": "Annulla modifica del testo",
+      "textRedo": "Ripeti modifica del testo",
+      "textUndoApplied": "L’ultima modifica al testo è stata annullata.",
+      "textRedoApplied": "La modifica al testo è stata ripetuta.",
+      "overflowAppliedWarning": "Il testo sostitutivo supera l’area originale. Controlla il risultato visivamente prima di esportare.",
+      "fallbackFontWarning": "Il font originale non ha potuto essere riutilizzato ed è stato usato un font di riserva. Controlla caratteri e spaziature.",
+      "signatureInvalidatedWarning": "Questo PDF contiene firme digitali. Modificarne il contenuto invalida le firme esistenti."
     },
     "imageToPdf": {
       "uploadLabel": "Carica immagini",
