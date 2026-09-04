@@ -8,7 +8,7 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: 'I miei file · PDFCraft',
+  title: 'I miei file · MadPDF',
   robots: { index: false, follow: false },
 };
 

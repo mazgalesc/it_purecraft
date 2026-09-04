@@ -1,6 +1,6 @@
 {
   "auth": {
-    "title": "Sign in to PDFCraft",
+    "title": "Sign in to MadPDF",
     "subtitle": "Use your madweb.it account",
     "emailLabel": "Email",
     "passwordLabel": "Password",
@@ -68,8 +68,8 @@
   },
   "metadata": {
     "home": {
-      "title": "PDFCraft - Professional PDF Tools",
-      "description": "Free, Private & Browser-Based. Merge, edit, and edit PDF files online without uploading to servers."
+      "title": "MadPDF - Professional PDF Tools",
+      "description": "Free PDF tools for madweb.it users: merge, edit and convert documents in your browser, and keep results in your free 100 MB cloud space."
     },
     "tools": {
       "title": "All PDF Tools",
@@ -77,19 +77,19 @@
     },
     "about": {
       "title": "About",
-      "description": "Learn about PDFCraft - your free, private, and powerful PDF toolkit. All processing happens in your browser."
+      "description": "Learn about MadPDF — free, powerful PDF tools for madweb.it users, with local processing and a private cloud space."
     },
     "faq": {
       "title": "Frequently Asked Questions",
-      "description": "Find answers to common questions about PDFCraft. Learn how to use our PDF tools effectively."
+      "description": "Find answers to common questions about MadPDF. Learn how to use our PDF tools effectively."
     },
     "privacy": {
       "title": "Privacy Policy",
-      "description": "PDFCraft privacy policy. Your files never leave your device - all processing happens locally in your browser."
+      "description": "MadPDF privacy policy: how your documents are processed locally and what happens when you save files to your madweb.it cloud space."
     },
     "contact": {
       "title": "Contact Us",
-      "description": "Get in touch with PDFCraft team. We'd love to hear from you."
+      "description": "Get in touch with MadPDF team. We'd love to hear from you."
     },
     "keywords": {
       "pdfTools": "PDF tools",
@@ -102,8 +102,8 @@
     }
   },
   "common": {
-    "brand": "PDFCraft",
-    "tagline": "Professional PDF Tools - Free & Private",
+    "brand": "MadPDF",
+    "tagline": "Professional PDF tools for your madweb.it account",
     "navigation": {
       "home": "Home",
       "tools": "Tools",
@@ -111,7 +111,9 @@
       "about": "About",
       "faq": "FAQ",
       "privacy": "Privacy",
-      "contact": "Contact"
+      "contact": "Contact",
+      "terms": "Terms",
+      "cookies": "Cookies"
     },
     "buttons": {
       "upload": "Upload Files",
@@ -150,10 +152,21 @@
       "loading": "Loading..."
     },
     "footer": {
-      "footer": "© 2025 PDFCraft. All rights reserved.",
-      "copyright": "© {year} PDFCraft. All rights reserved.",
-      "privacyBadge": "100% Private - Files never leave your device",
-      "madeWith": "Made with <Heart /> and <Nextjs />"
+      "footer": "© 2025 MadPDF. All rights reserved.",
+      "copyright": "© {year} MadPDF. All rights reserved.",
+      "privacyBadge": "Local processing · nothing is uploaded while you use a tool",
+      "madeWith": "Made with <Heart /> and <Nextjs />",
+      "security": {
+        "local": {
+          "title": "Local processing",
+          "description": "Tools run in your browser — your documents are never uploaded while you work."
+        },
+        "cloud": {
+          "title": "Optional cloud space",
+          "description": "Save results to your free 100 MB madweb.it space and reopen them anytime."
+        }
+      },
+      "source": "Open source (AGPL-3.0)"
     },
     "recentFiles": {
       "title": "Recent Files",
@@ -196,7 +209,7 @@
       "finish": "Finish",
       "skip": "Skip",
       "stepOf": "of",
-      "welcomeTitle": "Welcome to PDFCraft!",
+      "welcomeTitle": "Welcome to MadPDF!",
       "welcomeMessage": "Would you like a quick tour to learn how to use our PDF tools? It only takes a minute.",
       "helpButton": "Help Tour"
     },
@@ -1018,26 +1031,26 @@
     "sections": {
       "general": {
         "whatIs": {
-          "question": "What is PDFCraft?",
-          "answer": "PDFCraft is a free, privacy-focused PDF toolkit that runs entirely in your browser. It offers 80+ professional tools for editing, converting, merging, splitting, and securing PDF files without uploading them to any server."
+          "question": "What is MadPDF?",
+          "answer": "MadPDF is the madweb.it PDF toolkit: 80+ professional tools to merge, convert, compress and edit PDFs. Every tool runs directly in your browser, and with your madweb.it account you get 100 MB of free cloud space to keep documents and results."
         },
         "isFree": {
-          "question": "Is PDFCraft really free?",
-          "answer": "Yes, PDFCraft is completely free to use. There are no hidden costs, no premium tiers, and no registration required. All features are available to everyone."
+          "question": "Is MadPDF really free?",
+          "answer": "Yes, MadPDF is completely free to use. There are no hidden costs, no premium tiers, and no registration required. All features are available to everyone."
         },
         "account": {
           "question": "Do I need to create an account?",
-          "answer": "No, you don't need to create an account or register to use PDFCraft. Simply visit the website and start using any tool immediately."
+          "answer": "No, you don't need to create an account or register to use MadPDF. Simply visit the website and start using any tool immediately."
         }
       },
       "privacy": {
         "uploaded": {
           "question": "Are my files uploaded to a server?",
-          "answer": "No, your files are never uploaded to any server. All PDF processing happens locally in your browser using JavaScript and WebAssembly. Your files never leave your device."
+          "answer": "Not while you work: each tool runs locally in your browser and your documents are never uploaded during processing. Files are sent to our servers only when you explicitly save them to your MadPDF cloud space, which is private to your madweb.it account."
         },
         "safe": {
-          "question": "Is it safe to use PDFCraft with sensitive documents?",
-          "answer": "Yes, PDFCraft is designed with privacy in mind. Since all processing happens locally in your browser, your sensitive documents remain on your device and are never transmitted over the internet."
+          "question": "Is it safe to use MadPDF with sensitive documents?",
+          "answer": "Yes. Processing happens entirely in your browser, so your documents do not leave your device while you use the tools. If you save a file to your cloud space, it is stored on madweb.it servers behind your account — no other user can access it."
         },
         "storage": {
           "question": "What happens to my files after processing?",
@@ -1047,7 +1060,7 @@
       "features": {
         "operations": {
           "question": "What PDF operations can I perform?",
-          "answer": "PDFCraft offers 67+ tools including: merge, split, compress, convert (to/from images, text, JSON), edit, annotate, sign, add watermarks, encrypt/decrypt, OCR, and many more."
+          "answer": "MadPDF offers 67+ tools including: merge, split, compress, convert (to/from images, text, JSON), edit, annotate, sign, add watermarks, encrypt/decrypt, OCR, and many more."
         },
         "merge": {
           "question": "Can I merge multiple PDF files?",
@@ -1055,17 +1068,17 @@
         },
         "images": {
           "question": "Can I convert images to PDF?",
-          "answer": "Yes, PDFCraft supports converting various image formats (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) to PDF. You can convert single or multiple images at once."
+          "answer": "Yes, MadPDF supports converting various image formats (JPG, PNG, WebP, BMP, TIFF, SVG, HEIC) to PDF. You can convert single or multiple images at once."
         },
         "edit": {
           "question": "Can I edit text in a PDF?",
-          "answer": "PDFCraft provides annotation and editing tools including highlighting, adding text, shapes, images, and signatures. For full text editing, the PDF Editor tool offers comprehensive annotation capabilities."
+          "answer": "MadPDF provides annotation and editing tools including highlighting, adding text, shapes, images, and signatures. For full text editing, the PDF Editor tool offers comprehensive annotation capabilities."
         }
       },
       "technical": {
         "browsers": {
           "question": "What browsers are supported?",
-          "answer": "PDFCraft works on all modern browsers including Chrome, Firefox, Safari, and Edge. We recommend using the latest version of your browser for the best experience."
+          "answer": "MadPDF works on all modern browsers including Chrome, Firefox, Safari, and Edge. We recommend using the latest version of your browser for the best experience."
         },
         "sizeLimit": {
           "question": "Is there a file size limit?",
@@ -1076,14 +1089,14 @@
           "answer": "Since all processing happens in your browser, performance depends on your device's capabilities. Large files require more memory and processing power. For best results, close other browser tabs and applications."
         },
         "offline": {
-          "question": "Does PDFCraft work offline?",
-          "answer": "Currently, PDFCraft requires an internet connection to load the application. However, once loaded, the PDF processing itself happens locally and doesn't require a connection."
+          "question": "Does MadPDF work offline?",
+          "answer": "Currently, MadPDF requires an internet connection to load the application. However, once loaded, the PDF processing itself happens locally and doesn't require a connection."
         }
       },
       "languages": {
         "supported": {
           "question": "What languages are supported?",
-          "answer": "PDFCraft is available in 9 languages: English, Japanese, Korean, Spanish, French, German, Chinese, Portuguese, and Arabic (with RTL support)."
+          "answer": "MadPDF is available in Italian and English. Use the language selector to switch between them."
         },
         "change": {
           "question": "How do I change the language?",
@@ -1099,34 +1112,34 @@
   },
   "aboutPage": {
     "title": "About {brand}",
-    "description": "{brand} is a free, privacy-focused PDF toolkit that runs entirely in your browser. With {count}+ professional tools, you can edit, convert, merge, split, and secure your PDF files without ever uploading them to a server.",
+    "description": "{brand} is the PDF toolkit of the madweb.it suite: free tools to merge, convert, compress and edit documents, with {count}+ professional features. Processing happens in your browser; results can be saved to your free 100 MB cloud space.",
     "mission": {
       "title": "Our Mission",
-      "p1": "We believe that everyone should have access to powerful PDF tools without compromising their privacy or paying expensive subscription fees. That's why we created {brand} – a comprehensive PDF toolkit that puts your privacy first.",
-      "p2": "Unlike traditional PDF services that require you to upload your files to remote servers, {brand} processes everything locally in your browser. Your sensitive documents never leave your device, giving you complete control over your data.",
+      "p1": "We believe everyone should have access to powerful PDF tools without paying for subscriptions — and without sending every document to a remote server. That is why MadPDF is free and processes files locally.",
+      "p2": "Unlike PDF services that force you to upload files to remote servers, MadPDF processes everything locally in your browser. Your documents stay on your device while you work — and if you choose to save them, they land in your private madweb.it cloud space.",
       "p3": "Whether you're a student, professional, or casual user, {brand} provides all the tools you need to work with PDFs efficiently and securely."
     },
     "values": {
       "title": "Our Values",
       "privacy": {
-        "title": "Privacy First",
-        "description": "Your files never leave your device. All processing happens locally in your browser, ensuring complete privacy and security."
+        "title": "Privacy by design",
+        "description": "Each tool processes files locally in your browser — nothing is uploaded while you work. Saving to the cloud is always an explicit choice, and those files stay private to your madweb.it account."
       },
       "fast": {
         "title": "Fast & Efficient",
-        "description": "Powered by modern web technologies, PDFCraft delivers lightning-fast PDF processing without the need for uploads or downloads."
+        "description": "Built on modern web technologies, MadPDF processes PDFs at full speed right in your browser, without server round-trips."
       },
       "accessible": {
         "title": "Accessible Everywhere",
-        "description": "Available in 9 languages and works on any device with a modern browser. No installation required."
+        "description": "Available in Italian and English. Works on any device with a modern browser — no installation required."
       },
       "free": {
         "title": "Free Forever",
-        "description": "PDFCraft is completely free to use with no hidden costs, no registration required, and no limits on usage."
+        "description": "MadPDF is completely free to use with no hidden costs, no registration required, and no limits on usage."
       },
       "openSource": {
         "title": "Open Source",
-        "description": "Built with transparency in mind. Our code is open source, allowing anyone to verify our privacy claims."
+        "description": "Built with transparency in mind. Our code is open source (AGPL-3.0) so anyone can audit how it works."
       },
       "community": {
         "title": "Community Driven",
@@ -1143,7 +1156,7 @@
         "pdflib": "<strong1>pdf-lib & PDF.js</strong1> - Industry-standard PDF manipulation libraries",
         "indexeddb": "<strong1>IndexedDB</strong1> - For secure local storage of your work"
       },
-      "summary": "This combination of technologies allows us to provide professional-grade PDF tools that run entirely in your browser, without any server-side processing."
+      "summary": "MadPDF combines browser-native technologies to deliver professional PDF tools with no server-side processing: the engine is your device. The optional cloud space (100 MB included) is private to your madweb.it account."
     },
     "cta": {
       "title": "Ready to Get Started?",
@@ -1158,19 +1171,14 @@
     },
     "methods": {
       "email": {
-        "title": "Email",
-        "description": "Send us an email and we'll respond within 24-48 hours.",
-        "action": "contact@pdfcraft.app"
+        "title": "madweb.it support",
+        "description": "Questions about your account, your cloud space or a tool? Get in touch through the madweb.it support page.",
+        "action": "Contact madweb.it"
       },
-      "github": {
-        "title": "GitHub",
-        "description": "Report bugs, request features, or contribute to the project.",
-        "action": "View on GitHub"
-      },
-      "twitter": {
-        "title": "Twitter",
-        "description": "Follow us for updates and announcements.",
-        "action": "@pdfcraft"
+      "website": {
+        "title": "madweb.it",
+        "description": "MadPDF is part of the madweb.it family: the same account, one home for all your services.",
+        "action": "Go to madweb.it"
       }
     },
     "form": {
@@ -1248,13 +1256,13 @@
     "hero": {
       "title": "Professional PDF Tools",
       "highlight": "Professional Tools",
-      "subtitle": "Free, private, and powerful PDF processing in your browser",
+      "subtitle": "Powerful, local PDF processing — your files never leave your device while you work, and results can be saved to your free madweb.it cloud space.",
       "cta": "Get Started"
     },
     "features": {
       "privacy": {
-        "title": "100% Private",
-        "description": "All processing happens in your browser. Your files never leave your device."
+        "title": "Local processing",
+        "description": "Tools run in your browser — no uploads while you use them. Files reach our servers only when you save to your cloud space."
       },
       "free": {
         "title": "Completely Free",
@@ -1287,7 +1295,7 @@
       "pdfTools": "PDF Tools",
       "freeToUse": "Free to Use",
       "languages": "Languages",
-      "filesUploaded": "Files Uploaded"
+      "filesUploaded": "Files processed"
     },
     "categories": {
       "popular": "Popular Tools",
@@ -1302,7 +1310,7 @@
   "workflow": {
     "title": "PDF Workflow Builder",
     "subtitle": "Create custom PDF processing pipelines by connecting tools",
-    "metaTitle": "PDF Workflow Builder - PDFCraft",
+    "metaTitle": "PDF Workflow Builder - MadPDF",
     "metaDescription": "Create custom PDF processing pipelines by visually connecting tools. Build, save, and reuse your workflows.",
     "toolbox": "Tool Box",
     "dragToAdd": "Drag or double-click a tool to add it to the workflow",
@@ -3257,5 +3265,12 @@
       "processButton": "Translate & Convert Invoice",
       "successMessage": "Foreign invoice translated and local conversion ledger stamped successfully!"
     }
+  },
+  "footer": {
+    "resources": "Resources",
+    "security": "Security",
+    "compliance": "Compliance",
+    "gdpr": "GDPR compliant",
+    "madeBy": "A madweb.it service"
   }
 }

@@ -1,16 +1,16 @@
 /**
- * Site configuration
+ * Site configuration (madweb fork: MadPDF at pdf.madweb.it)
  */
 export const siteConfig = {
-  name: 'PDFCraft',
-  description: 'Professional PDF Tools - Free, Private & Browser-Based. Merge, split, compress, convert, and edit PDF files online without uploading to servers.',
-  url: 'https://pdfcraft.devtoolcafe.com',
+  name: 'MadPDF',
+  description: 'Strumenti PDF gratuiti per gli utenti madweb.it: elaborazione locale nel browser e spazio cloud personale da 100 MB.',
+  url: 'https://pdf.madweb.it',
   ogImage: '/images/og-image.png',
   links: {
-    github: 'https://github.com/PDFCraftTool/pdfcraft',
-    twitter: 'https://twitter.com/pdfcraft',
+    website: 'https://madweb.it',
+    source: 'https://github.com/mazgalesc/it_purecraft',
   },
-  creator: 'PDFCraft Team',
+  creator: 'madweb.it',
   keywords: [
     'PDF tools',
     'PDF editor',
@@ -19,16 +19,16 @@ export const siteConfig = {
     'compress PDF',
     'convert PDF',
     'free PDF tools',
-    'online PDF editor',
+    'madweb.it',
+    'PDF online',
     'browser-based PDF',
-    'private PDF processing',
+    'local PDF processing',
   ],
   // SEO-related settings
   seo: {
-    titleTemplate: '%s | PDFCraft',
-    defaultTitle: 'PDFCraft - Professional PDF Tools',
-    twitterHandle: '@pdfcraft',
-    locale: 'en_US',
+    titleTemplate: '%s | MadPDF',
+    defaultTitle: 'MadPDF - Strumenti PDF professionali',
+    locale: 'it_IT',
   },
 };
 

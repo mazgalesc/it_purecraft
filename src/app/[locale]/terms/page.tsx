@@ -1,30 +1,24 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import { locales } from '@/lib/i18n/config';
-import LoginClient from './LoginClient';
+import { locales, type Locale } from '@/lib/i18n/config';
+import TermsPageClient from './TermsPageClient';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
 export const metadata: Metadata = {
-  title: 'Accedi · MadPDF',
-  robots: { index: false, follow: false },
+  title: 'Termini di Servizio · MadPDF',
+  robots: { index: true, follow: true },
 };
 
-export default async function LoginPage({
+export default async function TermsPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  // Enable static rendering.
   setRequestLocale(locale);
 
-  return (
-    <Suspense fallback={null}>
-      <LoginClient />
-    </Suspense>
-  );
+  return <TermsPageClient locale={locale as Locale} />;
 }

@@ -150,7 +150,7 @@ export class CertCryptorProcessor extends BasePDFProcessor {
         color: baseColor,
       });
 
-      // Draw Central Stamp Symbol (e.g. Shield + Key / PDFCraft Logo)
+      // Draw Central Stamp Symbol (e.g. Shield + Key / MadPDF Logo)
       // We will draw a crest with lines
       // Draw a crown/crest in the center
       const iconSize = radius * 0.35;
@@ -202,7 +202,7 @@ export class CertCryptorProcessor extends BasePDFProcessor {
         Filter: pdfLib.PDFName.of('Adobe.PPKLite'),
         SubFilter: pdfLib.PDFName.of('adbe.pkcs7.detached'),
         Contents: pdfLib.PDFString.of(String.fromCharCode(...placeholderBytes)), // Preallocate
-        Reason: pdfLib.PDFString.of('Signed officially using PDFCraft Wax-Seal cryptor.'),
+        Reason: pdfLib.PDFString.of('Signed officially using MadPDF Wax-Seal cryptor.'),
         M: pdfLib.PDFString.of(`D:${new Date().toISOString().replace(/[-T:]/g, '').split('.')[0]}Z`),
       });
 

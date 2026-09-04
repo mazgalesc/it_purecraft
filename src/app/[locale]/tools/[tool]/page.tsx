@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { getToolById, getAllTools } from '@/config/tools';
-import { getToolContent, type Locale } from '@/config/tool-content';
+import { getToolContent, type Locale as ContentLocale } from '@/config/tool-content';
+import type { Locale } from '@/lib/i18n/config';
 import { ToolPage } from '@/components/tools/ToolPage';
 import { MergePDFTool } from '@/components/tools/merge';
 import { SplitPDFTool } from '@/components/tools/split';
@@ -135,7 +136,8 @@ import {
 } from '@/lib/seo/structured-data';
 import type { Metadata } from 'next';
 
-  const SUPPORTED_LOCALES: Locale[] = ['en', 'ja', 'ko', 'es', 'fr', 'de', 'zh', 'zh-TW', 'pt', 'ar', 'it', 'id', 'vi', 'ro'];
+  const SUPPORTED_LOCALES: Locale[] = ['it', 'en'];
+
 
 interface ToolPageParams {
   params: Promise<{
@@ -173,7 +175,7 @@ export async function generateMetadata({ params }: ToolPageParams): Promise<Meta
     };
   }
 
-  const content = getToolContent(locale, tool.id);
+  const content = getToolContent(locale as ContentLocale, tool.id);
 
   if (!content) {
     return {
@@ -210,7 +212,7 @@ export default async function ToolPageRoute({ params }: ToolPageParams) {
   }
 
   // Get tool content for the locale (falls back to English)
-  const content = getToolContent(locale, tool.id);
+  const content = getToolContent(locale as ContentLocale, tool.id);
 
   if (!content) {
     notFound();
@@ -234,7 +236,7 @@ export default async function ToolPageRoute({ params }: ToolPageParams) {
 
   // Prepare localized content for related tools
   const localizedRelatedTools = tool.relatedTools.reduce((acc, relatedId) => {
-    const relatedContent = getToolContent(locale, relatedId);
+    const relatedContent = getToolContent(locale as ContentLocale, relatedId);
     if (relatedContent) {
       acc[relatedId] = {
         title: relatedContent.title,

@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import '@/app/globals.css';
 
 export const metadata: Metadata = {
-  title: 'PDFCraft - Professional PDF Tools',
-  description: 'Free online PDF tools for merging, splitting, compressing, and converting PDF files. All processing happens in your browser for maximum privacy.',
+  title: 'MadPDF - Strumenti PDF professionali',
+  description: 'Strumenti PDF gratuiti per gli utenti madweb.it: elaborazione locale nel browser e spazio cloud personale da 100 MB.',
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',

@@ -1,5 +1,5 @@
 /**
- * Typed client for the PDFCraft cloud API (same-origin; WP ".madweb.it"
+ * Typed client for the MadPDF cloud API (same-origin; WP ".madweb.it"
  * session-cookie auth — no tokens stored in the app).
  *
  * AGPL-3.0 — part of the it_purecraft fork (madweb.it deployment).
@@ -35,7 +35,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   // Required by the backend for every state-changing call (CSRF defense).
   if (init.method && init.method !== 'GET') {
-    headers.set('X-PDFCraft-Request', '1');
+    headers.set('X-MadPDF-Request', '1');
   }
 
   let res: Response;
