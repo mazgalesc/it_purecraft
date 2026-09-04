@@ -12,6 +12,7 @@ import { searchTools, SearchResult } from '@/lib/utils/search';
 import { getToolContent } from '@/config/tool-content';
 import { getAllTools } from '@/config/tools';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { AccountChip } from '@/components/auth/AccountChip';
 
 export interface HeaderProps {
   locale: Locale;
@@ -316,13 +317,17 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
               }}
             />
 
-            {/* GitHub Repository Link */}
+            {/* Account: madweb.it session (login wall + cloud space) */}
+            <AccountChip locale={locale} />
+
+            {/* Source code (AGPL-3.0 — modified fork of PDFCraft) */}
             <a
-              href="https://github.com/PDFCraftTool/pdfcraft"
+              href="https://github.com/mazgalesc/it_purecraft"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex items-center justify-center h-9 w-9 rounded-lg text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] hover:bg-[hsl(var(--color-muted))/0.5] transition-all"
-              aria-label="GitHub Repository"
+              aria-label="Source code (AGPL-3.0)"
+              title="Source code (AGPL-3.0)"
             >
               <Github className="h-5 w-5" aria-hidden="true" />
             </a>

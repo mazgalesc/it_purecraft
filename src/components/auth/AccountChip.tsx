@@ -1,0 +1,81 @@
+/**
+ * Header account chip — the in-app face of the madweb.it session:
+ *  - anonymous: "Accedi" link to the branded login page,
+ *  - authenticated: display name, cloud-space usage and a logout button.
+ *
+ * AGPL-3.0 — part of the it_purecraft fork.
+ */
+
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { LogOut } from 'lucide-react';
+import { api } from '@/lib/api';
+import { useSession } from '@/lib/contexts/SessionContext';
+import { Button } from '@/components/ui/Button';
+
+function formatBytes(bytes: number): string {
+  if (bytes >= 1024 * 1024) {
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
+  const { session, refresh } = useSession();
+  const router = useRouter();
+  const t = useTranslations('account');
+
+  if (session.status === 'loading') {
+    return <div className="h-9 w-24 animate-pulse rounded-full bg-muted" aria-hidden />;
+  }
+
+  if (session.status === 'anon') {
+    return (
+      <Link href={`/${locale}/login`}>
+        <Button size="sm" variant="primary">
+          {t('signIn')}
+        </Button>
+      </Link>
+    );
+  }
+
+  const pct =
+    session.quotaBytes > 0 ? Math.min(100, Math.round((session.usedBytes / session.quotaBytes) * 100)) : 0;
+
+  async function handleLogout() {
+    try {
+      await api.logout();
+    } finally {
+      await refresh();
+      router.push(`/${locale}/login`);
+    }
+  }
+
+  return (
+    <div
+      className="flex items-center gap-3 rounded-full border border-[hsl(var(--color-border))] py-1.5 pl-3 pr-1.5"
+      title={t('quota', {
+        used: formatBytes(session.usedBytes),
+        total: formatBytes(session.quotaBytes),
+      })}
+    >
+      <div className="hidden flex-col items-end leading-tight sm:flex">
+        <span className="max-w-32 truncate text-xs font-medium">{session.user.displayName}</span>
+        <span className="text-[10px] text-[hsl(var(--color-muted-foreground))]">{pct}%</span>
+      </div>
+      <button
+        type="button"
+        onClick={handleLogout}
+        aria-label={t('logout')}
+        title={t('logout')}
+        className="rounded-full p-2 text-[hsl(var(--color-muted-foreground))] transition-colors hover:bg-muted hover:text-[hsl(var(--color-foreground))]"
+      >
+        <LogOut size={15} aria-hidden />
+      </button>
+    </div>
+  );
+};

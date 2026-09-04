@@ -1,4 +1,27 @@
 {
+  "auth": {
+    "title": "Sign in to PDFCraft",
+    "subtitle": "Use your madweb.it account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "registerPrompt": "No account yet?",
+    "register": "Register on madweb.it",
+    "forgotPassword": "Forgot password?",
+    "backToHome": "Back to home",
+    "errors": {
+      "invalidCredentials": "Incorrect email or password.",
+      "tooManyAttempts": "Too many attempts. Please try again in a few minutes.",
+      "networkError": "Cannot reach the server. Check your connection and try again.",
+      "unknown": "Something went wrong. Please try again."
+    }
+  },
+  "account": {
+    "signIn": "Sign in",
+    "logout": "Log out",
+    "quota": "{used} of {total} used"
+  },
   "metadata": {
     "home": {
       "title": "PDFCraft - Professional PDF Tools",

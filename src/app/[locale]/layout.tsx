@@ -6,6 +6,8 @@ import { localeConfig, type Locale, locales } from '@/lib/i18n/config';
 import { generateHomeMetadata } from '@/lib/seo';
 import { fontVariables } from '@/lib/fonts';
 import { SkipLink } from '@/components/common/SkipLink';
+import { SessionProvider } from '@/lib/contexts/SessionContext';
+import { SessionGuard } from '@/components/auth/SessionGuard';
 import '@/app/globals.css';
 
 export function generateStaticParams() {
@@ -72,7 +74,9 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <div lang={locale} dir={direction} className={`${fontVariables} min-h-screen bg-background text-foreground antialiased font-sans`}>
         <SkipLink targetId="main-content">Skip to main content</SkipLink>
-        {children}
+        <SessionProvider>
+          <SessionGuard>{children}</SessionGuard>
+        </SessionProvider>
       </div>
     </NextIntlClientProvider>
   );
