@@ -51,7 +51,7 @@ export default function LoginClient() {
   // Already authenticated (valid madweb.it session cookie) → skip the form.
   useEffect(() => {
     if (session.status === 'authed') {
-      router.replace(next ?? localePath(locale, '/'));
+      router.replace(next ?? localePath(locale, '/dashboard'));
     }
   }, [session.status, next, locale, router]);
 
@@ -63,7 +63,7 @@ export default function LoginClient() {
     try {
       await api.login(email.trim(), password);
       await refresh();
-      router.replace(next ?? localePath(locale, '/'));
+      router.replace(next ?? localePath(locale, '/dashboard'));
     } catch (err) {
       if (err instanceof ApiError) {
         if (err.code === 'too_many_attempts') {

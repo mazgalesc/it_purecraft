@@ -64,10 +64,9 @@ export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
         total: formatBytes(session.quotaBytes),
       })}
     >
-      <Link
-        href={localePath(locale, '/my-files')}
-        title={t('myFiles')}
-        aria-label={t('myFiles')}
+      <Link href={localePath(locale, '/dashboard')}
+        title={t('dashboard')}
+        aria-label={t('dashboard')}
         className="flex items-center gap-2 rounded-full text-[hsl(var(--color-muted-foreground))] transition-colors hover:text-[hsl(var(--color-foreground))]"
       >
         <HardDrive size={15} aria-hidden />

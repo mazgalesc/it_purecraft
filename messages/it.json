@@ -21,7 +21,8 @@
     "signIn": "Accedi",
     "logout": "Esci",
     "myFiles": "I miei file",
-    "quota": "{used} di {total} utilizzati"
+    "quota": "{used} di {total} utilizzati",
+    "dashboard": "Dashboard"
   },
   "cloud": {
     "title": "Il mio spazio",
@@ -3278,5 +3279,47 @@
     "compliance": "Conformità",
     "gdpr": "Conforme al GDPR",
     "madeBy": "Un servizio madweb.it"
+  },
+  "dashboard": {
+    "greeting": {
+      "hello": "Bentornato, {name}",
+      "fallbackName": "👋",
+      "loading": "Caricamento…",
+      "subtitle": "Tutto quello che ti serve per lavorare ai tuoi PDF, in un unico posto.",
+      "heading": "Panoramica"
+    },
+    "quota": {
+      "title": "Il tuo spazio",
+      "usage": "{used} su {total} usati",
+      "manage": "Gestisci i file"
+    },
+    "quick": {
+      "title": "Azioni rapide",
+      "tools": "Tutti gli strumenti",
+      "toolsHint": "130+ strumenti gratuiti",
+      "myFiles": "Il mio spazio",
+      "myFilesHint": "Cartelle e file salvati",
+      "upload": "Carica un file",
+      "uploadHint": "Dal telefono o dal PC"
+    },
+    "recent": {
+      "title": "File recenti",
+      "seeAll": "Vedi tutti",
+      "loading": "Caricamento…",
+      "empty": "Non hai ancora file nello spazio.",
+      "emptyCta": "Prova uno strumento",
+      "in": "in",
+      "rootFolder": "radice",
+      "download": "Scarica",
+      "delete": "Elimina",
+      "loadError": "Impossibile caricare i file recenti.",
+      "downloadError": "Download non riuscito. Riprova.",
+      "deleteError": "Eliminazione non riuscita. Riprova.",
+      "alreadyDeleted": "File già eliminato."
+    },
+    "popular": {
+      "title": "Strumenti più usati",
+      "seeAll": "Vedi tutti"
+    }
   }
 }

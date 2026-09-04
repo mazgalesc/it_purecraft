@@ -88,6 +88,28 @@ function pdfcraft_controller_list(): never
 {
     $owner = pdfcraft_require_user();
     $pdo   = pdfcraft_db();
+
+    /* Recent-across-folders mode: GET /api/files?recent=N (dashboard feed).
+     * Newest files first regardless of folder, each with its folder name. */
+    if (isset($_GET['recent'])) {
+        $limit = min(max((int) $_GET['recent'], 1), 50);
+        $q = $pdo->prepare(
+            'SELECT f.*, COALESCE(fo.name, \'\') AS folder_name
+             FROM files f LEFT JOIN folders fo ON fo.id = f.folder_id
+             WHERE f.owner = ?
+             ORDER BY f.created DESC, f.id DESC
+             LIMIT ' . $limit
+        );
+        $q->execute([$owner]);
+        $items = [];
+        foreach ($q as $row) {
+            $item = pdfcraft_file_json($row);
+            $item['folderName'] = $row['folder_name'];
+            $items[] = $item;
+        }
+        pdfcraft_json_out(['items' => $items, 'recent' => true]);
+    }
+
     $folder = (string) ($_GET['folder'] ?? '');
     if ($folder !== '' && !pdfcraft_is_id($folder)) {
         pdfcraft_json_out(['error' => 'bad_request'], 400);

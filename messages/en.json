@@ -21,7 +21,8 @@
     "signIn": "Sign in",
     "logout": "Log out",
     "myFiles": "My files",
-    "quota": "{used} of {total} used"
+    "quota": "{used} of {total} used",
+    "dashboard": "Dashboard"
   },
   "cloud": {
     "title": "My space",
@@ -3278,5 +3279,47 @@
     "compliance": "Compliance",
     "gdpr": "GDPR compliant",
     "madeBy": "A madweb.it service"
+  },
+  "dashboard": {
+    "greeting": {
+      "hello": "Welcome back, {name}",
+      "fallbackName": "👋",
+      "loading": "Loading…",
+      "subtitle": "Everything you need to work on your PDFs, in one place.",
+      "heading": "Overview"
+    },
+    "quota": {
+      "title": "Your space",
+      "usage": "{used} of {total} used",
+      "manage": "Manage files"
+    },
+    "quick": {
+      "title": "Quick actions",
+      "tools": "All tools",
+      "toolsHint": "130+ free tools",
+      "myFiles": "My space",
+      "myFilesHint": "Folders and saved files",
+      "upload": "Upload a file",
+      "uploadHint": "From phone or desktop"
+    },
+    "recent": {
+      "title": "Recent files",
+      "seeAll": "See all",
+      "loading": "Loading…",
+      "empty": "No files in your space yet.",
+      "emptyCta": "Try a tool",
+      "in": "in",
+      "rootFolder": "root",
+      "download": "Download",
+      "delete": "Delete",
+      "loadError": "Could not load recent files.",
+      "downloadError": "Download failed. Please try again.",
+      "deleteError": "Delete failed. Please try again.",
+      "alreadyDeleted": "File already deleted."
+    },
+    "popular": {
+      "title": "Popular tools",
+      "seeAll": "See all"
+    }
   }
 }

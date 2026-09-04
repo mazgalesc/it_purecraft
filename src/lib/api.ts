@@ -76,6 +76,8 @@ export interface CloudItem {
   mime?: string;
   tool?: string;
   created: string;
+  /** Present only in ?recent= responses: folder the file lives in ('' = root). */
+  folderName?: string;
 }
 
 export interface CloudListResponse {
@@ -100,6 +102,9 @@ export const api = {
   logout: () => request<{ ok: boolean }>('/api/auth/logout', { method: 'POST' }),
 
   /* ---- cloud files & folders ---- */
+
+  recentCloud: (limit = 8) =>
+    request<{ items: CloudItem[] }>(`/api/files?recent=${limit}`),
 
   listCloud: (folderId: string | null) => {
     const query = folderId ? `?folder=${encodeURIComponent(folderId)}` : '';
