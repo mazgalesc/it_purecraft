@@ -12,7 +12,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { LogOut } from 'lucide-react';
+import { HardDrive, LogOut } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useSession } from '@/lib/contexts/SessionContext';
 import { Button } from '@/components/ui/Button';
@@ -57,16 +57,26 @@ export const AccountChip: React.FC<{ locale: string }> = ({ locale }) => {
 
   return (
     <div
-      className="flex items-center gap-3 rounded-full border border-[hsl(var(--color-border))] py-1.5 pl-3 pr-1.5"
+      className="flex items-center gap-2 rounded-full border border-[hsl(var(--color-border))] py-1.5 pl-2.5 pr-1.5"
       title={t('quota', {
         used: formatBytes(session.usedBytes),
         total: formatBytes(session.quotaBytes),
       })}
     >
-      <div className="hidden flex-col items-end leading-tight sm:flex">
-        <span className="max-w-32 truncate text-xs font-medium">{session.user.displayName}</span>
-        <span className="text-[10px] text-[hsl(var(--color-muted-foreground))]">{pct}%</span>
-      </div>
+      <Link
+        href={`/${locale}/my-files`}
+        title={t('myFiles')}
+        aria-label={t('myFiles')}
+        className="flex items-center gap-2 rounded-full text-[hsl(var(--color-muted-foreground))] transition-colors hover:text-[hsl(var(--color-foreground))]"
+      >
+        <HardDrive size={15} aria-hidden />
+        <span className="hidden flex-col items-end leading-tight sm:flex">
+          <span className="max-w-32 truncate text-xs font-medium text-[hsl(var(--color-foreground))]">
+            {session.user.displayName}
+          </span>
+          <span className="text-[10px]">{pct}%</span>
+        </span>
+      </Link>
       <button
         type="button"
         onClick={handleLogout}

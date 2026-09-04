@@ -20,6 +20,7 @@
   "account": {
     "signIn": "Accedi",
     "logout": "Esci",
+    "myFiles": "I miei file",
     "quota": "{used} di {total} utilizzati"
   },
   "cloud": {
@@ -37,12 +38,32 @@
     "saved": "Salvato nel tuo spazio",
     "close": "Chiudi",
     "quotaLabel": "{used} di {total}",
+    "selectHint": "Seleziona i file da aprire",
+    "openCount": "Apri {count, plural, one {# file} other {# file}}",
+    "opening": "Apertura…",
+    "newFolder": "Nuova cartella",
+    "createFolder": "Crea cartella",
+    "folderName": "Nome della cartella",
+    "rename": "Rinomina",
+    "move": "Sposta in…",
+    "moveHere": "Sposta qui",
+    "downloadFile": "Scarica",
+    "delete": "Elimina",
+    "deleteFileTitle": "Eliminare il file?",
+    "deleteFolderTitle": "Eliminare la cartella?",
+    "deleteFileConfirm": "“{name}” verrà eliminato definitivamente.",
+    "deleteFolderConfirm": "“{name}” e tutto il suo contenuto verranno eliminati definitivamente.",
     "errors": {
       "loadFailed": "Impossibile caricare lo spazio. Riprova.",
       "downloadFailed": "Impossibile aprire il file. Riprova.",
       "uploadFailed": "Caricamento non riuscito. Riprova.",
       "quotaExceeded": "Spazio esaurito: libera spazio prima di salvare.",
-      "saveFailed": "Impossibile salvare nello spazio. Riprova."
+      "saveFailed": "Impossibile salvare nello spazio. Riprova.",
+      "openFailed": "Impossibile aprire i file selezionati. Riprova.",
+      "nameExists": "Esiste già un elemento con questo nome.",
+      "nameRequired": "Inserisci un nome.",
+      "moveInvalid": "Questa cartella non può essere spostata qui.",
+      "operationFailed": "Operazione non riuscita. Riprova."
     }
   },
   "metadata": {

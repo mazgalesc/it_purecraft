@@ -20,6 +20,7 @@
   "account": {
     "signIn": "Sign in",
     "logout": "Log out",
+    "myFiles": "My files",
     "quota": "{used} of {total} used"
   },
   "cloud": {
@@ -37,12 +38,32 @@
     "saved": "Saved to your space",
     "close": "Close",
     "quotaLabel": "{used} of {total}",
+    "selectHint": "Select the files to open",
+    "openCount": "Open {count, plural, one {# file} other {# files}}",
+    "opening": "Opening…",
+    "newFolder": "New folder",
+    "createFolder": "Create folder",
+    "folderName": "Folder name",
+    "rename": "Rename",
+    "move": "Move to…",
+    "moveHere": "Move here",
+    "downloadFile": "Download",
+    "delete": "Delete",
+    "deleteFileTitle": "Delete file?",
+    "deleteFolderTitle": "Delete folder?",
+    "deleteFileConfirm": "“{name}” will be permanently deleted.",
+    "deleteFolderConfirm": "“{name}” and everything inside it will be permanently deleted.",
     "errors": {
       "loadFailed": "Could not load your space. Please try again.",
       "downloadFailed": "Could not open the file. Please try again.",
       "uploadFailed": "Upload failed. Please try again.",
       "quotaExceeded": "Space quota exceeded — free up space before saving.",
-      "saveFailed": "Could not save to your space. Please try again."
+      "saveFailed": "Could not save to your space. Please try again.",
+      "openFailed": "Could not open the selected files. Please try again.",
+      "nameExists": "An item with that name already exists.",
+      "nameRequired": "Enter a name.",
+      "moveInvalid": "This folder cannot be moved there.",
+      "operationFailed": "The operation failed. Please try again."
     }
   },
   "metadata": {

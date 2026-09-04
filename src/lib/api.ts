@@ -129,4 +129,47 @@ export const api = {
       (b) => b.item
     );
   },
+
+  /* ---- cloud management (files & folders) ---- */
+
+  /** PATCH /api/{kind}/{id} — {name?, folder?} rename/move (folder '' = root). */
+  patchCloudItem: (
+    kind: 'files' | 'folders',
+    id: string,
+    changes: { name?: string; folderId?: string | null }
+  ) => {
+    const body: Record<string, string> = {};
+    if (changes.name !== undefined) body.name = changes.name;
+    if (changes.folderId !== undefined) body.folder = changes.folderId ?? '';
+    return request<{ item: CloudItem }>(`/api/${kind}/${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      headers: JSON_HEADERS,
+      body: JSON.stringify(body),
+    }).then((b) => b.item);
+  },
+
+  renameCloudFile: (id: string, name: string) =>
+    api.patchCloudItem('files', id, { name }),
+
+  moveCloudFile: (id: string, folderId: string | null) =>
+    api.patchCloudItem('files', id, { folderId }),
+
+  deleteCloudFile: (id: string) =>
+    request<{ ok: boolean }>(`/api/files/${encodeURIComponent(id)}`, { method: 'DELETE' }),
+
+  createFolder: (name: string, folderId: string | null) =>
+    request<{ item: CloudItem }>('/api/folders', {
+      method: 'POST',
+      headers: JSON_HEADERS,
+      body: JSON.stringify({ name, folder: folderId ?? '' }),
+    }).then((b) => b.item),
+
+  renameCloudFolder: (id: string, name: string) =>
+    api.patchCloudItem('folders', id, { name }),
+
+  moveCloudFolder: (id: string, folderId: string | null) =>
+    api.patchCloudItem('folders', id, { folderId }),
+
+  deleteCloudFolder: (id: string) =>
+    request<{ ok: boolean }>(`/api/folders/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 };

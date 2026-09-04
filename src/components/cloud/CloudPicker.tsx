@@ -1,9 +1,13 @@
 /**
  * CloudPicker — modal browser of the user's pdf.madweb.it space.
  *
- * Lets a tool open a stored file: navigating folders, uploading into the
- * current folder, and picking a file (downloaded as a Blob-backed File that
- * then flows through the tool's normal file pipeline).
+ * Lets a tool open stored files: navigating folders, uploading into the
+ * current folder, and picking file(s) (downloaded as Blob-backed Files that
+ * then flow through the tool's normal file pipeline).
+ *
+ * Single-file tools (multiple = false) pick on row click; multi-file tools
+ * (multiple = true, e.g. Merge PDF) show a checkbox selection plus an
+ * "Open N" confirm, and can restrict the visible files via `accept`.
  *
  * AGPL-3.0 — part of the it_purecraft fork.
  */
@@ -12,7 +16,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronLeft, ChevronRight, FolderOpen, FileText, UploadCloud, Loader2, Check, X, HardDrive } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FolderOpen, FileText, UploadCloud, Loader2, Check, X, HardDrive, Circle } from 'lucide-react';
 import { api, ApiError, type CloudItem } from '@/lib/api';
 import { useSession } from '@/lib/contexts/SessionContext';
 
@@ -27,13 +31,30 @@ function formatBytes(bytes: number): string {
   return `${bytes} B`;
 }
 
-export interface CloudPickerProps {
-  onClose: () => void;
-  /** Called with a downloaded, Blob-backed File when the user picks one. */
-  onPickFile: (file: File) => void;
+/** Same accept semantics as FileUploader.validateFiles: extensions, wildcard or exact MIME types. */
+function matchesAccept(name: string, mime: string | undefined, accept: string[] | undefined): boolean {
+  if (!accept || accept.length === 0) return true;
+  const lowerName = name.toLowerCase();
+  const fileMime = mime || '';
+  return accept.some((type) => {
+    if (type === '*/*' || type === '*') return true;
+    if (type.startsWith('.')) return lowerName.endsWith(type.toLowerCase());
+    if (type.endsWith('/*')) return fileMime.startsWith(type.slice(0, -2));
+    return fileMime === type;
+  });
 }
 
-export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile }) => {
+export interface CloudPickerProps {
+  onClose: () => void;
+  /** Called with downloaded, Blob-backed Files when the user picks one or more. */
+  onPickFiles: (files: File[]) => void;
+  /** Multi-file selection mode (Merge-style tools). Defaults to single pick. */
+  multiple?: boolean;
+  /** Restrict pickable files to the tool's accepted types (folders always shown). */
+  accept?: string[];
+}
+
+export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFiles, multiple = false, accept }) => {
   const t = useTranslations('cloud');
   const { session } = useSession();
 
@@ -44,8 +65,10 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [pickingId, setPickingId] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null); // single-pick / open-in-progress
   const [pickedId, setPickedId] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [opening, setOpening] = useState(false);
   const uploadRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(
@@ -67,6 +90,16 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
   useEffect(() => {
     void load(current.id);
   }, [current.id, load]);
+
+  // Drop selections pointing at files that disappeared (folder change, delete…).
+  useEffect(() => {
+    setSelected((prev) => {
+      if (prev.size === 0) return prev;
+      const ids = new Set(items.map((i) => i.id));
+      const next = new Set([...prev].filter((id) => ids.has(id)));
+      return next.size === prev.size ? prev : next;
+    });
+  }, [items]);
 
   const pushFolder = (folder: CloudItem) => {
     setCrumbs((prev) => [...prev, { id: folder.id, name: folder.name }]);
@@ -92,20 +125,56 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
     }
   };
 
-  const handlePick = async (item: CloudItem) => {
-    if (pickingId) return;
-    setPickingId(item.id);
+  /** Download one stored file and turn it into a Blob-backed File. */
+  const materialize = async (item: CloudItem): Promise<File> => {
+    const blob = await api.downloadCloud(item.id);
+    return new File([blob], item.name, { type: item.mime || 'application/octet-stream' });
+  };
+
+  /** Single-file tools: click a file to open it right away (previous behavior). */
+  const handlePickSingle = async (item: CloudItem) => {
+    if (busyId) return;
+    setBusyId(item.id);
     setError(null);
     try {
-      const blob = await api.downloadCloud(item.id);
-      const file = new File([blob], item.name, { type: item.mime || 'application/octet-stream' });
+      const file = await materialize(item);
       setPickedId(item.id);
-      setTimeout(() => onPickFile(file), 250);
+      setTimeout(() => onPickFiles([file]), 250);
     } catch {
       setError(t('errors.downloadFailed'));
-      setPickingId(null);
+      setBusyId(null);
     }
   };
+
+  const toggleSelect = (item: CloudItem) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(item.id)) {
+        next.delete(item.id);
+      } else {
+        next.add(item.id);
+      }
+      return next;
+    });
+  };
+
+  const handleOpenSelected = async () => {
+    const chosen = items.filter((i) => i.type === 'file' && selected.has(i.id));
+    if (chosen.length === 0 || opening) return;
+    setOpening(true);
+    setError(null);
+    try {
+      const files = await Promise.all(chosen.map(materialize));
+      setTimeout(() => onPickFiles(files), 250);
+    } catch {
+      setError(t('errors.openFailed'));
+      setOpening(false);
+    }
+  };
+
+  const visibleItems = multiple
+    ? items.filter((i) => i.type === 'folder' || matchesAccept(i.name, i.mime, accept))
+    : items;
 
   const quota = session.status === 'authed' ? session : null;
   const pct =
@@ -174,12 +243,16 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
             </p>
           )}
 
+          {multiple && !loading && visibleItems.some((i) => i.type === 'file') && (
+            <p className="mb-2 px-1 text-xs text-[hsl(var(--color-muted-foreground))]">{t('selectHint')}</p>
+          )}
+
           {loading ? (
             <div className="flex h-full items-center justify-center text-[hsl(var(--color-muted-foreground))]">
               <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden />
               <span className="text-sm">{t('loading')}</span>
             </div>
-          ) : items.length === 0 ? (
+          ) : visibleItems.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
               <FileText size={30} className="mb-3 opacity-40" aria-hidden />
               <p className="text-sm font-medium">{t('empty')}</p>
@@ -187,7 +260,7 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
             </div>
           ) : (
             <ul className="space-y-1">
-              {items.map((item) =>
+              {visibleItems.map((item) =>
                 item.type === 'folder' ? (
                   <li key={item.id}>
                     <button
@@ -204,8 +277,9 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
                   <li key={item.id}>
                     <button
                       type="button"
-                      onClick={() => handlePick(item)}
-                      disabled={!!pickingId}
+                      onClick={() => (multiple ? toggleSelect(item) : handlePickSingle(item))}
+                      disabled={multiple ? opening : !!busyId}
+                      aria-pressed={multiple ? selected.has(item.id) : undefined}
                       className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-[hsl(var(--color-muted))] disabled:opacity-60"
                     >
                       <FileText size={18} className="shrink-0 opacity-70" aria-hidden />
@@ -217,7 +291,15 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
                           </span>
                         )}
                       </span>
-                      {pickingId === item.id ? (
+                      {multiple ? (
+                        selected.has(item.id) ? (
+                          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--color-primary))] text-[hsl(var(--color-primary-foreground))]" aria-hidden>
+                            <Check size={12} strokeWidth={3} />
+                          </span>
+                        ) : (
+                          <Circle size={17} className="shrink-0 opacity-40" aria-hidden />
+                        )
+                      ) : busyId === item.id ? (
                         <Loader2 size={16} className="shrink-0 animate-spin text-[hsl(var(--color-primary))]" aria-hidden />
                       ) : pickedId === item.id ? (
                         <Check size={16} className="shrink-0 text-green-500" aria-hidden />
@@ -249,6 +331,28 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
               )}
               {uploading ? t('uploading') : t('uploadHere')}
             </button>
+
+            {multiple && (
+              <button
+                type="button"
+                disabled={selected.size === 0 || opening}
+                onClick={handleOpenSelected}
+                className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--color-primary))] px-4 py-2 text-sm font-medium text-[hsl(var(--color-primary-foreground))] hover:bg-[hsl(var(--color-primary-hover))] disabled:opacity-50"
+              >
+                {opening ? (
+                  <>
+                    <Loader2 size={15} className="animate-spin" aria-hidden />
+                    {t('opening')}
+                  </>
+                ) : (
+                  <>
+                    <Check size={15} aria-hidden />
+                    {t('openCount', { count: selected.size })}
+                  </>
+                )}
+              </button>
+            )}
+
             {quota && (
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center justify-between text-[11px] text-[hsl(var(--color-muted-foreground))]">
@@ -269,3 +373,5 @@ export const CloudPicker: React.FC<CloudPickerProps> = ({ onClose, onPickFile })
     </div>
   );
 };
+
+export default CloudPicker;

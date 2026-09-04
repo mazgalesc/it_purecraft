@@ -601,10 +601,12 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       {/* Cloud space picker modal */}
       {cloudOpen && (
         <CloudPicker
+          multiple={multiple}
+          accept={accept}
           onClose={() => setCloudOpen(false)}
-          onPickFile={(file) => {
+          onPickFiles={(files) => {
             setCloudOpen(false);
-            void handleFiles([file]);
+            void handleFiles(files);
           }}
         />
       )}
